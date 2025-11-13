@@ -1,8 +1,5 @@
-import { mapManager } from "./MapManager.js";
-import { gameManager } from "./GameManager.js";
-
-export const physicManager = {
-  update: function (obj) {
+class PhysicManager {
+  update(obj) {
     if (obj.move_x === 0 && obj.move_y === 0) return "stop";
     var newX = obj.pos_x + Math.floor(obj.move_x * obj.speed);
     var newY = obj.pos_y + Math.floor(obj.move_y * obj.speed);
@@ -18,8 +15,9 @@ export const physicManager = {
       obj.pos_y = newY;
     } else return "break";
     return "move";
-  },
-  entityAtXY: function (obj, x, y) {
+  }
+
+  entityAtXY(obj, x, y) {
     for (var i = 0; i < gameManager.entities.length; i++) {
       var e = gameManager.entities[i];
       if (e.name !== obj.name) {
@@ -34,5 +32,5 @@ export const physicManager = {
       }
     }
     return null;
-  },
-};
+  }
+}

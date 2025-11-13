@@ -1,32 +1,29 @@
-import { mapManager} from './MapManager.js';
+class SpriteManager {
+  image = new Image();
+  sprites = new Array();
+  imgLoaded = false;
+  jsonLoaded = false;
 
-
-export const spriteManager = {
-  image: new Image(),
-  sprites: new Array(),
-  imgLoaded: false,
-  jsonLoaded: false,
-
-  loadAtlas: function (atlasJson, atlasImg) {
+  loadAtlas(atlasJson, atlasImg) {
     var request = new XMLHttpRequest();
-    request.onreadystatechange = function () {
+    request.onreadystatechange = (function () {
       if (request.readyState === 4 && request.status === 200) {
-        spriteManager.parseAtlas(request.responseText);
+        this.parseAtlas(request.responseText);
       }
-    };
+    }).bind(this);
     request.open("GET", atlasJson, true);
     request.send();
     this.loadImg(atlasImg);
-  },
+  }
 
-  loadImg: function (imgName) {
-    this.image.onload = function () {
-      spriteManager.imgLoaded = true;
-    };
+  loadImg(imgName) {
+    this.image.onload = (function () {
+      this.imgLoaded = true;
+    }).bind(this);
     this.image.src = imgName;
-  },
+  }
 
-  parseAtlas: function (atlasJSON) {
+  parseAtlas(atlasJSON) {
     var atlas = JSON.parse(atlasJSON);
     for (var i = 0; i < atlas.length; i++) {
       var spriteData = atlas[i];
@@ -39,13 +36,13 @@ export const spriteManager = {
       });
     }
     this.jsonLoaded = true;
-  },
+  }
 
-  drawSprite: function (ctx, name, x, y) {
+  drawSprite(ctx, name, x, y) {
     if (!this.imgLoaded || !this.jsonLoaded) {
-      setTimeout(function () {
-        spriteManager.drawSprite(ctx, name, x, y);
-      }, 100);
+      setTimeout((function () {
+        this.drawSprite(ctx, name, x, y);
+      }).bind(this), 100);
     } else {
       var sprite = this.getSprite(name);
       if (!mapManager.isVisible(x, y, sprite.w, sprite.h)) return;
@@ -63,14 +60,13 @@ export const spriteManager = {
         sprite.h
       );
     }
-  },
+  }
 
-  getSprite: function (name) {
+  getSprite(name) {
     for (var i = 0; i < this.sprites.length; i++) {
       var s = this.sprites[i];
-      if (s.name === name)
-        return s;
+      if (s.name === name) return s;
     }
     return null;
-  },
-};
+  }
+}

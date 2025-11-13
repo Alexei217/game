@@ -1,26 +1,19 @@
-import { mapManager } from "./MapManager.js"
-import { spriteManager } from "./SpriteManager.js"
-import { eventsManager } from "./EventManager.js";
-import { Player } from "./entities/Player.js";
-import { soundManager } from "./SoundManager.js";
+class GameManager {
+  factory = {};
+  entities = [];
+  fireNum = 0;
+  player = null;
+  laterKill = [];
 
-
-export const gameManager = {
-  factory: {},
-  entities: [],
-  fireNum: 0,
-  player: null,
-  laterKill: [],
-
-  initPlayer: function (obj) {
+  initPlayer(obj) {
     this.player = obj;
-  },
+  }
 
-  kill: function (obj) {
+  kill(obj) {
     this.laterKill.push(obj);
-  },
+  }
 
-  update: function () {
+  update() {
     if (this.player === null) return;
     this.player.move_x = 0;
     this.player.move_y = 0;
@@ -39,35 +32,38 @@ export const gameManager = {
       if (idx > -1) this.entities.splice(idx, 1);
     }
     if (this.laterKill.length > 0) this.laterKill.length = 0;
-    soundManager.playWorldSound("audio/1.mp3", 0, 0);
     mapManager.draw(ctx);
     mapManager.centerAt(this.player.pos_x, this.player.pos_y);
     this.draw(ctx);
-  },
+  }
 
-  draw: function (ctx) {
+  draw(ctx) {
     for (var e = 0; e < this.entities.length; e++) this.entities[e].draw(ctx);
-  },
+  }
 
-  loadAll: function () {
-    mapManager.loadMap("./map.json");
-    spriteManager.loadAtlas("sprites.json", "spritesheet.png");
-    gameManager.factory["Player"] = Player;
+  loadAll() {
+    mapManager.loadMap("/map/map.json");
+    spriteManager.loadAtlas("/atlas/sprites.json", "/atlas/spritesheet.png");
+
+    this.factory["Player"] = Player;
     mapManager.parseEntities();
     mapManager.draw(ctx);
     eventsManager.setup(canvas);
     soundManager.init();
-    soundManager.loadArray(["audio/1.mp3"]);
-    
-  },
+    soundManager.loadArray(["/audio/1.mp3"]);
+    soundManager.play("/audio/1.mp3", {
+      volume: 0.5,
+      looping: true,
+    });
+  }
 
-  play: function () {
-    setInterval(updateWorld, 10);
-  },
-};
-
-
-export function updateWorld() {
-  gameManager.update();
+  play() {
+    this.timer = setInterval(() => {
+      try {
+        this.update();
+      } catch (e) {
+        console.log(e);
+      }
+    }, 10);
+  }
 }
-

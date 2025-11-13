@@ -1,19 +1,17 @@
-import { gameManager } from "./GameManager.js";
+class MapManager {
+  mapData = null;
+  tLayer = new Array();
+  xCount = 0;
+  yCount = 0;
+  tSize = { x: 18, y: 18 };
+  mapSize = { x: 20, y: 30 };
+  tilesets = new Array();
+  imgLoadCount = 0;
+  imgLoaded = false;
+  jsonLoaded = false;
+  view = { x: 0, y: 0, w: 180, h: 180 };
 
-export const mapManager = {
-  mapData: null,
-  tLayer: new Array(),
-  xCount: 0,
-  yCount: 0,
-  tSize: { x: 18, y: 18 },
-  mapSize: { x: 20, y: 30 },
-  tilesets: new Array(),
-  imgLoadCount: 0,
-  imgLoaded: false,
-  jsonLoaded: false,
-  view: { x: 0, y: 0, w: 180, h: 180 },
-
-  parseMap: function (tilesJSON) {
+  parseMap(tilesJSON) {
     this.mapData = JSON.parse(tilesJSON);
     this.xCount = this.mapData.width;
     this.yCount = this.mapData.height;
@@ -25,29 +23,29 @@ export const mapManager = {
     for (var i = 0; i < this.mapData.tilesets.length; i++) {
       var img = new Image();
 
-      img.onload = function () {
-        mapManager.imgLoadCount++;
-        if (mapManager.imgLoadCount === mapManager.mapData.tilesets.length) {
-          mapManager.imgLoaded = true;
+      img.onload = (function () {
+        this.imgLoadCount++;
+        if (this.imgLoadCount === this.mapData.tilesets.length) {
+          this.imgLoaded = true;
         }
-      };
+      }).bind(this);
 
-      img.src = this.mapData.tilesets[i].source.split(".")[0] + ".png";
+      img.src = "map/" + this.mapData.tilesets[i].source.split(".")[0] + ".png";
 
       var t = this.mapData.tilesets[i];
       var ts = {
         firstgid: t.firstgid,
         image: img,
         name: t.name,
-        xCount: Math.floor(162 / mapManager.tSize.x), // исправить хардкод
-        yCount: Math.floor(162 / mapManager.tSize.y),
+        xCount: Math.floor(162 / this.tSize.x), // исправить хардкод
+        yCount: Math.floor(162 / this.tSize.y),
       };
       this.tilesets.push(ts);
     }
     this.jsonLoaded = true;
-  },
+  }
 
-  isVisible: function (x, y, width, height) {
+  isVisible(x, y, width, height) {
     if (
       x + width <= this.view.x ||
       y + height <= this.view.y ||
@@ -56,13 +54,13 @@ export const mapManager = {
     )
       return false;
     return true;
-  },
+  }
 
-  draw: function (ctx) {
-    if (!mapManager.imgLoaded || !mapManager.jsonLoaded) {
-      setTimeout(function () {
-        mapManager.draw(ctx);
-      }, 100);
+  draw(ctx) {
+    if (!this.imgLoaded || !this.jsonLoaded) {
+      setTimeout((function () {
+        this.draw(ctx);
+      }).bind(this), 100);
     } else {
       if (this.tLayer.length === 0)
         for (var id = 0; id < this.mapData.layers.length; id++) {
@@ -100,9 +98,9 @@ export const mapManager = {
         }
       }
     }
-  },
+  }
 
-  getTile: function (tileIndex) {
+  getTile(tileIndex) {
     var tile = {
       img: null,
       px: 0,
@@ -116,24 +114,24 @@ export const mapManager = {
 
     var y = Math.floor(id / tileset.xCount);
 
-    tile.px = x * mapManager.tSize.x;
-    tile.py = y * mapManager.tSize.y;
+    tile.px = x * this.tSize.x;
+    tile.py = y * this.tSize.y;
     return tile;
-  },
+  }
 
-  getTileset: function (tileIndex) {
-    for (var i = mapManager.tilesets.length - 1; i >= 0; i--)
-      if (mapManager.tilesets[i].firstgid <= tileIndex) {
-        return mapManager.tilesets[i];
+  getTileset(tileIndex) {
+    for (var i = this.tilesets.length - 1; i >= 0; i--)
+      if (this.tilesets[i].firstgid <= tileIndex) {
+        return this.tilesets[i];
       }
     return null;
-  },
+  }
 
-  parseEntities: function () {
-    if (!mapManager.imgLoaded || !mapManager.jsonLoaded) {
-      setTimeout(function () {
-        mapManager.parseEntities();
-      }, 100);
+  parseEntities() {
+    if (!this.imgLoaded || !this.jsonLoaded) {
+      setTimeout((function () {
+        this.parseEntities();
+      }).bind(this), 100);
     } else
       for (var j = 0; j < this.mapData.layers.length; j++)
         if (this.mapData.layers[j].type === "objectgroup") {
@@ -156,37 +154,37 @@ export const mapManager = {
             }
           }
         }
-  },
+  }
 
-  getTilesetIdx: function (x, y) {
+  getTilesetIdx(x, y) {
     var wX = x;
     var wY = y;
     var idx =
       Math.floor(wY / this.tSize.y) * this.xCount +
       Math.floor(wX / this.tSize.x);
     return this.tLayer[0].data[idx];
-  },
+  }
 
-  centerAt: function (x, y) {
+  centerAt(x, y) {
     if (x < this.view.w / 2) this.view.x = 0;
     else if (x > this.mapSize.x - this.view.w / 2)
       this.view.x = this.mapSize.x - this.view.w;
     else this.view.x = x - this.view.w / 2;
-    
+
     if (y < this.view.h / 2) this.view.y = 0;
     else if (y > this.mapSize.y - this.view.h / 2)
       this.view.y = this.mapSize.y - this.view.h;
     else this.view.y = y - this.view.h / 2;
-  },
+  }
 
-  loadMap: function (path) {
+  loadMap(path) {
     var request = new XMLHttpRequest();
-    request.onreadystatechange = function () {
+    request.onreadystatechange = (function () {
       if (request.readyState === 4 && request.status === 200) {
-        mapManager.parseMap(request.responseText);
+        this.parseMap(request.responseText);
       }
-    };
+    }).bind(this);
     request.open("GET", path, true);
     request.send();
-  },
-};
+  }
+}

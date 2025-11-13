@@ -1,64 +1,62 @@
-import { gameManager } from "./GameManager.js";
-import { mapManager } from "./MapManager.js";
+class SoundManager {
+  clips = {};
+  context = null;
+  gainNode = null;
+  loaded = false;
 
-
-export const soundManager = {
-  clips: {},
-  context: null,
-  gainNode: null,
-  loaded: false,
-
-  init: function () {
+  init() {
     this.context = new AudioContext();
     this.gainNode = this.context.createGain
       ? this.context.createGain()
       : this.context.createGainNode();
     this.gainNode.connect(this.context.destination);
-  },
+  }
 
-  load: function (path, callback) {
+  load(path, callback) {
     if (this.clips[path]) {
       callback(this.clips[path]);
       return;
     }
     var clip = { path: path, buffer: null, loaded: false };
-    clip.play = function (volume, loop) {
-      soundManager.play(this.path, {
+    clip.play = (function (volume, loop) {
+      this.play(clip.path, {
         looping: loop ? loop : false,
         volume: volume ? volume : 1,
       });
-    };
+    }).bind(this);
     this.clips[path] = clip;
     var request = new XMLHttpRequest();
     request.open("GET", path, true);
     request.responseType = "arraybuffer";
     request.onload = function () {
-      soundManager.context.decodeAudioData(request.response, function (buffer) {
+      this.context.decodeAudioData(request.response, function (buffer) {
         clip.buffer = buffer;
         clip.loaded = true;
         callback(clip);
       });
-    };
+    }.bind(this);
     request.send();
-  },
+  }
 
-  loadArray: function (array) {
+  loadArray(array) {
     for (var i = 0; i < array.length; i++) {
-      soundManager.load(array[i], function () {
-        if (array.length === Object.keys(soundManager.clips).length) {
-          for (let sd in soundManager.clips)
-            if (!soundManager.clips[sd].loaded) return;
-          soundManager.loaded = true;
+      this.load(array[i], (function () {
+        if (array.length === Object.keys(this.clips).length) {
+          for (let sd in this.clips) if (!this.clips[sd].loaded) return;
+          this.loaded = true;
         }
-      });
+      }).bind(this));
     }
-  },
-
-  play: function (path, settings) {
-    if (!soundManager.loaded) {
-      setTimeout(function () {
-        soundManager.play(path, settings);
-      }, 1000);
+  }
+  
+  play(path, settings) {
+    if (!this.loaded) {
+      setTimeout(
+        function () {
+          this.play(path, settings);
+        }.bind(this),
+        1000
+      );
       return;
     }
     var looping = false;
@@ -69,38 +67,38 @@ export const soundManager = {
     }
     var sd = this.clips[path];
     if (sd === null) return false;
-    var sound = soundManager.context.createBufferSource();
+    var sound = this.context.createBufferSource();
     sound.buffer = sd.buffer;
-    sound.connect(soundManager.gainNode);
+    sound.connect(this.gainNode);
     sound.loop = looping;
-    soundManager.gainNode.gain.value = volume;
+    this.gainNode.gain.value = volume;
     sound.start(0);
 
     return true;
-  },
+  }
 
-  playWorldSound: function (path, x, y) {
+  playWorldSound(path, x, y) {
     if (gameManager.player === null) return;
     var viewSize = Math.max(mapManager.view.w, mapManager.view.h) * 0.8;
     var dx = Math.abs(gameManager.player.pos_x - x);
     var dy = Math.abs(gameManager.player.pos_y - y);
     var distance = Math.sqrt(dx * dx + dy * dy);
     var norm = distance / viewSize;
-    console.log(norm)
+    console.log(norm);
     if (norm > 1) norm = 1;
     var volume = 1.0 - norm;
     if (!volume) return;
-    soundManager.play(path, { looping: false, volume: volume });
-  },
+    this.play(path, { looping: false, volume: volume });
+  }
 
-  toggleMute: function () {
+  toggleMute() {
     if (this.gainNode.gain.value > 0) this.gainNode.gain.value = 0;
     else this.gainNode.gain.value = 1;
-  },
+  }
 
-  stopAll: function () {
+  stopAll() {
     this.gainNode.disconnect();
     this.gainNode = this.context.createGainNode(0);
     this.gainNode.connect(this.context.destination);
-  },
-};
+  }
+}

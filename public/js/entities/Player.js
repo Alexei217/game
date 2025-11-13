@@ -1,8 +1,4 @@
-import { Entity } from "./Entity.js";
-import { spriteManager } from "../SpriteManager.js";
-import { physicManager } from "../PhysicManager.js";
-
-export class Player extends Entity {
+class Player extends Entity {
   constructor() {
     super();
     this.lifetime = 100;
