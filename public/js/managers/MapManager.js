@@ -3,13 +3,13 @@ class MapManager {
   tLayer = new Array();
   xCount = 0;
   yCount = 0;
-  tSize = { x: 18, y: 18 };
+  tSize = { x: 32, y: 32 };
   mapSize = { x: 20, y: 30 };
   tilesets = new Array();
   imgLoadCount = 0;
   imgLoaded = false;
   jsonLoaded = false;
-  view = { x: 0, y: 0, w: 180, h: 180 };
+  view = { x: 0, y: 0, w: 800, h: 640 };
 
   parseMap(tilesJSON) {
     this.mapData = JSON.parse(tilesJSON);
@@ -37,8 +37,8 @@ class MapManager {
         firstgid: t.firstgid,
         image: img,
         name: t.name,
-        xCount: Math.floor(162 / this.tSize.x), // исправить хардкод
-        yCount: Math.floor(162 / this.tSize.y),
+        xCount: Math.floor(608 / this.tSize.x), // исправить хардкод
+        yCount: Math.floor(416 / this.tSize.y),
       };
       this.tilesets.push(ts);
     }

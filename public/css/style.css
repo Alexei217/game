@@ -1,0 +1,14 @@
+body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #3e3950;
+    }
+
+/* #canvasId {
+  width: 8000px;
+  height: 800px;
+} */
