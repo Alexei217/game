@@ -1,32 +1,120 @@
 class PhysicManager {
   update(obj) {
-    if (obj.move_x === 0 && obj.move_y === 0) return "stop";
-    var newX = obj.pos_x + Math.floor(obj.move_x * obj.speed);
-    var newY = obj.pos_y + Math.floor(obj.move_y * obj.speed);
-    var ts1 = mapManager.getTilesetIdx(
-      newX,
-      newY
-    );
-    var ts2 = mapManager.getTilesetIdx(
-      newX + obj.size_x -1,
-      newY
-    );
-    var ts3 = mapManager.getTilesetIdx(
-      newX,
-      newY + 42
-    );
-    var ts4 = mapManager.getTilesetIdx(
-      newX + obj.size_x -1,
-      newY  + 42
-    );
-    var e = this.entityAtXY(obj, newX, newY);
-    if (e !== null && obj.onTouchEntity) obj.onTouchEntity(e);
-    // if (ts !== 1 && obj.onTouchMap) obj.onTouchMap(ts);
-    if (e === null && ts1 == 155 && ts2 == 155 && ts3 == 155 && ts4 == 155) {
-      obj.pos_x = newX;
-      obj.pos_y = newY;
-    } else return "break";
-    return "move";
+    if (obj.onGround) {
+      obj.onGround = this.hasGroundUnder(obj, obj.pos_x, obj.pos_y);
+    }
+
+    // Применяем гравитацию
+    if (!obj.onGround) {
+      obj.vel_y += obj.gravity;
+      // Ограничиваем максимальную скорость падения
+      if (obj.vel_y > obj.maxFallSpeed) {
+        obj.vel_y = obj.maxFallSpeed;
+      }
+    } else {
+      obj.vel_y = 0; // на земле вертикальная скорость = 0
+    }
+
+    if (obj.vel_y !== 0) {
+      var targetY = obj.pos_y + obj.vel_y;
+
+      // Если скорость высокая, используем пошаговую проверку
+      if (Math.abs(obj.vel_y) > 1) {
+        var stepY = obj.vel_y > 0 ? 1 : -1;
+        var steps = Math.abs(obj.vel_y);
+        var currentY = obj.pos_y;
+        var collision = false;
+
+        for (var i = 0; i < steps; i++) {
+          currentY += stepY;
+          if (!this.canMoveTo(obj, obj.pos_x, currentY)) {
+            // Столкновение! Останавливаемся у поверхности
+            obj.pos_y = currentY - stepY;
+            obj.vel_y = 0;
+            if (stepY > 0) obj.onGround = true;
+            collision = true;
+            break;
+          }
+        }
+
+        if (!collision) {
+          obj.pos_y = targetY;
+          obj.onGround = false;
+        }
+      } else {
+        // Обычная проверка для низких скоростей
+        if (this.canMoveTo(obj, obj.pos_x, targetY)) {
+          obj.pos_y = targetY;
+          obj.onGround = false;
+        } else {
+          obj.vel_y = 0;
+          if (obj.vel_y > 0) obj.onGround = true;
+        }
+      }
+    }
+
+    // Обрабатываем горизонтальное движение
+    obj.vel_x = obj.move_x * obj.speed;
+    // Вычисляем новую позицию
+    var newX = obj.pos_x + obj.vel_x;
+
+
+    // Проверяем столкновения по горизонтали
+    if (obj.vel_x !== 0) {
+      var canMoveX = this.canMoveTo(obj, newX, obj.pos_y);
+      if (canMoveX) {
+        obj.pos_x = newX;
+      } else {
+        obj.vel_x = 0;
+      }
+    }
+
+    // Проверяем столкновения с другими entity
+    var e = this.entityAtXY(obj, obj.pos_x, obj.pos_y);
+    if (e !== null && obj.onTouchEntity) {
+      obj.onTouchEntity(e);
+    }
+
+    return obj.vel_x !== 0 || obj.vel_y !== 0 ? "move" : "stop";
+  }
+
+  hasGroundUnder(obj, x, y) {
+    var checkDistance = 1; // насколько глубоко проверяем под ногами
+
+    // Проверяем только две точки под углами объекта
+    var groundCheckPoints = [
+      { x: x, y: y + obj.size_y + checkDistance }, // левый нижний угол
+      { x: x + obj.size_x - 1, y: y + obj.size_y + checkDistance }, // правый нижний угол
+    ];
+
+    for (var point of groundCheckPoints) {
+      var ts = mapManager.getTilesetIdx(point.x, point.y);
+      if (ts !== 155) {
+        // непроходимый тайл = земля
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // Проверяет, может ли объект переместиться в указанную позицию
+  canMoveTo(obj, x, y) {
+    // Проверяем все 4 угла спрайта
+    var points = [
+      { x: x, y: y }, // верхний левый
+      { x: x + obj.size_x - 1, y: y }, // верхний правый
+      { x: x, y: y + obj.size_y - 1 }, // нижний левый
+      { x: x + obj.size_x - 1, y: y + obj.size_y - 1 }, // нижний правый
+    ];
+
+    for (var point of points) {
+      var ts = mapManager.getTilesetIdx(point.x, point.y);
+      // Если тайл непроходим (ts !== 155)
+      if (ts !== 155) {
+        return false;
+      }
+    }
+    return true;
   }
 
   entityAtXY(obj, x, y) {

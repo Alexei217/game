@@ -16,17 +16,23 @@ class GameManager {
   update() {
     if (this.player === null) return;
     this.player.move_x = 0;
-    this.player.move_y = 0;
-    if (eventsManager.action["up"]) this.player.move_y = -1;
-    if (eventsManager.action["down"]) this.player.move_y = 1;
     if (eventsManager.action["left"]) this.player.move_x = -1;
     if (eventsManager.action["right"]) this.player.move_x = 1;
-    if (eventsManager.action["fire"]) this.player.fire();
+    if (eventsManager.action["up"] && !this.upPressed) {
+      this.player.jump();
+      this.upPressed = true;
+    }
+
+    if (!eventsManager.action["up"]) {
+      this.upPressed = false;
+    }
+
     this.entities.forEach(function (e) {
       try {
         e.update();
       } catch (ex) {}
     });
+
     for (var i = 0; i < this.laterKill.length; i++) {
       var idx = this.entities.indexOf(this.laterKill[i]);
       if (idx > -1) this.entities.splice(idx, 1);
@@ -64,6 +70,6 @@ class GameManager {
       } catch (e) {
         console.log(e);
       }
-    }, 10);
+    }, 1);
   }
 }
