@@ -6,6 +6,7 @@ const physicManager = new PhysicManager()
 const eventsManager = new EventsManager()
 const gameManager = new GameManager()
 const soundManager = new SoundManager()
+const animationManager = new AnimationManager()
 
 gameManager.loadAll()
 gameManager.play()

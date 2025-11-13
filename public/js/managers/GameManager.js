@@ -53,6 +53,7 @@ class GameManager {
 
     this.factory["Player"] = Player;
     mapManager.parseEntities();
+    this.initAnimations();
     mapManager.draw(ctx);
     eventsManager.setup(canvas);
     soundManager.init();
@@ -62,6 +63,41 @@ class GameManager {
       looping: true,
     });
   }
+
+  initAnimations() {
+  // Анимация стойки (idle) - используем первые 11 спрайтов (sprite33 - sprite43)
+  animationManager.addAnimation("idle", [
+    "sprite2",  // 2
+    "sprite3",  // 3
+    "sprite4",  // 4
+    "sprite5",  // 5
+    "sprite6",  // 6
+    "sprite7",  // 7
+    "sprite8",  // 8
+    "sprite9",  // 9
+    "sprite10",  // 10
+    "sprite11",
+    "sprite12"   // 11
+  ], 4); // 8 кадров в секунду - плавная анимация стойки
+
+  // Анимация ходьбы (run) - используем следующие 8 спрайтов (sprite44 - sprite51)
+  animationManager.addAnimation("run", [
+    "sprite13",  // 12 - начало шага
+    "sprite14",  // 13
+    "sprite15",  // 14
+    "sprite16",  // 15
+    "sprite17",  // 16
+    "sprite18",  // 17
+    "sprite19",  // 18
+    "sprite20",// 19 - завершение шага
+  ], 6); // 12 кадров в секунду - быстрая анимация ходьбы
+
+  // Анимация прыжка (jump) - используем последние 2 спрайта (sprite52 - sprite53)
+  animationManager.addAnimation("jump", [
+    "sprite2",  // 20 - прыжок вверх
+    "sprite3"   // 21 - падение/приземление
+  ], 10, false); // 10 кадров в секунду, не зациклена
+}
 
   play() {
     this.timer = setInterval(() => {

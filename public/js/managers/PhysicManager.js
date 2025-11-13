@@ -15,49 +15,10 @@ class PhysicManager {
       obj.vel_y = 0; // на земле вертикальная скорость = 0
     }
 
-    if (obj.vel_y !== 0) {
-      var targetY = obj.pos_y + obj.vel_y;
-
-      // Если скорость высокая, используем пошаговую проверку
-      if (Math.abs(obj.vel_y) > 1) {
-        var stepY = obj.vel_y > 0 ? 1 : -1;
-        var steps = Math.abs(obj.vel_y);
-        var currentY = obj.pos_y;
-        var collision = false;
-
-        for (var i = 0; i < steps; i++) {
-          currentY += stepY;
-          if (!this.canMoveTo(obj, obj.pos_x, currentY)) {
-            // Столкновение! Останавливаемся у поверхности
-            obj.pos_y = currentY - stepY;
-            obj.vel_y = 0;
-            if (stepY > 0) obj.onGround = true;
-            collision = true;
-            break;
-          }
-        }
-
-        if (!collision) {
-          obj.pos_y = targetY;
-          obj.onGround = false;
-        }
-      } else {
-        // Обычная проверка для низких скоростей
-        if (this.canMoveTo(obj, obj.pos_x, targetY)) {
-          obj.pos_y = targetY;
-          obj.onGround = false;
-        } else {
-          obj.vel_y = 0;
-          if (obj.vel_y > 0) obj.onGround = true;
-        }
-      }
-    }
-
     // Обрабатываем горизонтальное движение
     obj.vel_x = obj.move_x * obj.speed;
     // Вычисляем новую позицию
     var newX = obj.pos_x + obj.vel_x;
-
 
     // Проверяем столкновения по горизонтали
     if (obj.vel_x !== 0) {
@@ -69,11 +30,41 @@ class PhysicManager {
       }
     }
 
+    if (obj.vel_y !== 0) {
+      var targetY = obj.pos_y + obj.vel_y;
+
+      // Если скорость высокая, используем пошаговую проверку
+      var stepY = obj.vel_y > 0 ? 1 : -1;
+      var steps = Math.abs(obj.vel_y);
+      var currentY = obj.pos_y;
+      var collision = false;
+
+      for (var i = 0; i < steps; i++) {
+        currentY += stepY;
+        if (!this.canMoveTo(obj, obj.pos_x, currentY)) {
+          // Столкновение! Останавливаемся у поверхности
+          obj.pos_y = currentY - stepY;
+          obj.vel_y = 0;
+          if (stepY > 0) obj.onGround = true;
+          collision = true;
+          break;
+        }
+      }
+ 
+      if (!collision) {
+        obj.pos_y = targetY;
+        obj.onGround = false;
+      }
+    }
+
     // Проверяем столкновения с другими entity
     var e = this.entityAtXY(obj, obj.pos_x, obj.pos_y);
     if (e !== null && obj.onTouchEntity) {
       obj.onTouchEntity(e);
     }
+
+    obj.pos_x = Math.round(obj.pos_x);
+    obj.pos_y = Math.round(obj.pos_y);
 
     return obj.vel_x !== 0 || obj.vel_y !== 0 ? "move" : "stop";
   }
