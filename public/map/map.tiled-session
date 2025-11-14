@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "map.tmx",
+    "activeFile": "map.json",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "Все файлы (*)",
@@ -16,6 +16,14 @@
         },
         "Terrain (32x32).tsx": {
             "scaleInDock": 1
+        },
+        "map.json": {
+            "scale": 1,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 198.5,
+                "y": 321.5
+            }
         },
         "map.tmx": {
             "scale": 2,
@@ -38,10 +46,11 @@
     "map.lastUsedExportFilter": "JSON map-файлы (*.tmj *.json)",
     "map.lastUsedFormat": "json",
     "openFiles": [
-        "map.tmx"
+        "map.json"
     ],
     "project": "map.tiled-project",
     "recentFiles": [
+        "map.json",
         "map.tmx"
     ],
     "tileset.embedInMap": false,

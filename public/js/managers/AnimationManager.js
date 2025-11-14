@@ -15,6 +15,14 @@ class AnimationManager {
     });
   }
 
+  resetAnimation(animationName) {
+    if (this.animations.has(animationName)) {
+      const anim = this.animations.get(animationName);
+      anim.currentFrame = 0;
+      anim.frameTime = 0;
+    }
+  }
+
   // Обновляем анимацию для объекта
   updateAnimation(entity, animationName, dt) {
     if (!this.animations.has(animationName)) return null;

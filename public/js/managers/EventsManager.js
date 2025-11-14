@@ -6,6 +6,7 @@ class EventsManager {
     this.bind[65] = "left";
     this.bind[68] = "right";
     this.bind[32] = "up";
+    this.bind[70] = "attack"
     // canvas.addEventListener("mousedown", this.onMouseDown.bind(this));
     // canvas.addEventListener("mouseup", this.onMouseUp.bind(this));
     document.body.addEventListener("keydown", this.onKeyDown.bind(this));

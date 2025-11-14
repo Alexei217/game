@@ -15,17 +15,6 @@ class GameManager {
 
   update() {
     if (this.player === null) return;
-    this.player.move_x = 0;
-    if (eventsManager.action["left"]) this.player.move_x = -1;
-    if (eventsManager.action["right"]) this.player.move_x = 1;
-    if (eventsManager.action["up"] && !this.upPressed) {
-      this.player.jump();
-      this.upPressed = true;
-    }
-
-    if (!eventsManager.action["up"]) {
-      this.upPressed = false;
-    }
 
     this.entities.forEach(function (e) {
       try {
@@ -65,39 +54,60 @@ class GameManager {
   }
 
   initAnimations() {
-  // Анимация стойки (idle) - используем первые 11 спрайтов (sprite33 - sprite43)
-  animationManager.addAnimation("idle", [
-    "sprite2",  // 2
-    "sprite3",  // 3
-    "sprite4",  // 4
-    "sprite5",  // 5
-    "sprite6",  // 6
-    "sprite7",  // 7
-    "sprite8",  // 8
-    "sprite9",  // 9
-    "sprite10",  // 10
-    "sprite11",
-    "sprite12"   // 11
-  ], 4); // 8 кадров в секунду - плавная анимация стойки
+    // Анимация стойки (idle) - используем первые 11 спрайтов (sprite33 - sprite43)
+    animationManager.addAnimation(
+      "idle",
+      [
+        "sprite2", // 4
+        "sprite3", // 5
+        "sprite4", // 6
+        "sprite5", // 7
+        "sprite6", // 8
+        "sprite7", // 9
+        "sprite8", // 10
+        "sprite9",
+        "sprite10", // 11
+        "sprite11",
+        "sprite12", // 11
+      ],
+      4
+    ); // 8 кадров в секунду - плавная анимация стойки
 
-  // Анимация ходьбы (run) - используем следующие 8 спрайтов (sprite44 - sprite51)
-  animationManager.addAnimation("run", [
-    "sprite13",  // 12 - начало шага
-    "sprite14",  // 13
-    "sprite15",  // 14
-    "sprite16",  // 15
-    "sprite17",  // 16
-    "sprite18",  // 17
-    "sprite19",  // 18
-    "sprite20",// 19 - завершение шага
-  ], 6); // 12 кадров в секунду - быстрая анимация ходьбы
+    // Анимация ходьбы (run) - используем следующие 8 спрайтов (sprite44 - sprite51)
+    animationManager.addAnimation(
+      "run",
+      [
+        "sprite13", // 14
+        "sprite14", // 15
+        "sprite15", // 16
+        "sprite16", // 17
+        "sprite17", // 18
+        "sprite18", // 19 - завершение шага
+        "sprite19", // 18
+        "sprite20", // 19 - завершение шага
+      ],
+      6
+    ); // 12 кадров в секунду - быстрая анимация ходьбы
 
-  // Анимация прыжка (jump) - используем последние 2 спрайта (sprite52 - sprite53)
-  animationManager.addAnimation("jump", [
-    "sprite2",  // 20 - прыжок вверх
-    "sprite3"   // 21 - падение/приземление
-  ], 10, false); // 10 кадров в секунду, не зациклена
-}
+    // Анимация прыжка (jump) - используем последние 2 спрайта (sprite52 - sprite53)
+    animationManager.addAnimation("jump_up", ["sprite23"], 1, false);
+
+    // Падение вниз
+    animationManager.addAnimation("jump_down", ["sprite22"], 1, true);
+
+    // Приземление
+    animationManager.addAnimation("land", ["sprite21"], 1, false);
+    animationManager.addAnimation(
+      "attack",
+      [
+        "sprite24", // кадр 1 атаки
+        "sprite25", // кадр 2 атаки  
+        "sprite26"  // кадр 3 атаки
+      ],
+      10, // скорость анимации атаки
+      false // не зацикливать - проигрывается один раз
+    );
+  }
 
   play() {
     this.timer = setInterval(() => {

@@ -38,26 +38,37 @@ class SpriteManager {
     this.jsonLoaded = true;
   }
 
-  drawSprite(ctx, name, x, y) {
+  drawSprite(ctx, name, x, y, flip = false) {
     if (!this.imgLoaded || !this.jsonLoaded) {
       setTimeout((function () {
-        this.drawSprite(ctx, name, x, y);
+        this.drawSprite(ctx, name, x, y, flip);
       }).bind(this), 100);
-    } else {
-      var sprite = this.getSprite(name);
-      if (!mapManager.isVisible(x, y, sprite.w, sprite.h)) return;
-      x -= mapManager.view.x;
-      y -= mapManager.view.y;
+      return;
+    }
+
+    var sprite = this.getSprite(name);
+    if (!sprite) return;
+    
+    if (!mapManager.isVisible(x, y, sprite.w, sprite.h)) return;
+    
+    var screenX = x - mapManager.view.x;
+    var screenY = y - mapManager.view.y;
+
+    if (flip) {
+      ctx.save();
+      ctx.translate(screenX + sprite.w, screenY);
+      ctx.scale(-1, 1);
       ctx.drawImage(
         this.image,
-        sprite.x,
-        sprite.y,
-        sprite.w,
-        sprite.h,
-        x,
-        y,
-        sprite.w,
-        sprite.h
+        sprite.x, sprite.y, sprite.w, sprite.h,
+        0, 0, sprite.w, sprite.h
+      );
+      ctx.restore();
+    } else {
+      ctx.drawImage(
+        this.image,
+        sprite.x, sprite.y, sprite.w, sprite.h,
+        screenX, screenY, sprite.w, sprite.h
       );
     }
   }
