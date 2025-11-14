@@ -107,7 +107,7 @@ class Player extends Entity {
   }
 
   jump() {
-    if (this.onGround && !this.isLanding && !this.isAttacking) {
+    if (this.onGround && !this.isLanding) {
       this.vel_y = -this.jumpPower;
       this.onGround = false;
       this.wasInAir = true;
@@ -142,7 +142,7 @@ class Player extends Entity {
     animationManager.resetAnimation("attack");
 
     // Можно добавить звук атаки
-    // soundManager.play("/audio/attack.mp3");
+    soundManager.play("/audio/explode.mp3");
 
     // Создаем область атаки (хитбокс)
     this.createAttackHitbox();

@@ -46,11 +46,11 @@ class GameManager {
     mapManager.draw(ctx);
     eventsManager.setup(canvas);
     soundManager.init();
-    soundManager.loadArray(["/audio/1.mp3"]);
-    soundManager.play("/audio/1.mp3", {
-      volume: 0.5,
-      looping: true,
-    });
+    soundManager.loadArray(["/audio/1.mp3", "/audio/explode.mp3"]);
+    // soundManager.play("/audio/1.mp3", {
+    //   volume: 0.5,
+    //   looping: true,
+    // });
   }
 
   initAnimations() {
