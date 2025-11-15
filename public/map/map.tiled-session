@@ -5,6 +5,7 @@
     },
     "activeFile": "map.json",
     "expandedProjectPaths": [
+        "."
     ],
     "file.lastUsedOpenFilter": "Все файлы (*)",
     "fileStates": {
@@ -14,15 +15,21 @@
         "#Terrain (32x32)": {
             "scaleInEditor": 1
         },
+        "Decorations (32x32).tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "Terrain (32x32).tsx": {
+            "dynamicWrapping": false,
             "scaleInDock": 1
         },
         "map.json": {
             "scale": 1,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 198.5,
-                "y": 321.5
+                "x": 400,
+                "y": 621.5
             }
         },
         "map.tmx": {
@@ -42,14 +49,16 @@
     },
     "last.exportedFilePath": "/home/alexei/REPO/game/public/map",
     "last.externalTilesetPath": "/home/alexei/game/Kings and Pigs/Sprites/14-TileSets",
-    "last.imagePath": "/home/alexei/game/Kings and Pigs/Sprites/14-TileSets",
+    "last.imagePath": "/home/alexei/REPO/game/public/map",
     "map.lastUsedExportFilter": "JSON map-файлы (*.tmj *.json)",
     "map.lastUsedFormat": "json",
     "openFiles": [
-        "map.json"
+        "map.json",
+        "Decorations (32x32).tsx"
     ],
     "project": "map.tiled-project",
     "recentFiles": [
+        "Decorations (32x32).tsx",
         "map.json",
         "map.tmx"
     ],

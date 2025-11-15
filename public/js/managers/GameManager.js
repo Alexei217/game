@@ -41,12 +41,19 @@ class GameManager {
     spriteManager.loadAtlas("/atlas/sprites.json", "/atlas/spritesheet.png");
 
     this.factory["Player"] = Player;
+    this.factory["Diamond"] = Diamond;
+    this.factory["Heart"] = Heart;
     mapManager.parseEntities();
     this.initAnimations();
     mapManager.draw(ctx);
     eventsManager.setup(canvas);
     soundManager.init();
-    soundManager.loadArray(["/audio/1.mp3", "/audio/explode.mp3"]);
+    soundManager.loadArray([
+      "/audio/1.mp3",
+      "/audio/explode.mp3",
+      "/audio/diamond.mp3",
+      "/audio/heart.mp3",
+    ]);
     // soundManager.play("/audio/1.mp3", {
     //   volume: 0.5,
     //   looping: true,
@@ -54,58 +61,82 @@ class GameManager {
   }
 
   initAnimations() {
-    // Анимация стойки (idle) - используем первые 11 спрайтов (sprite33 - sprite43)
     animationManager.addAnimation(
       "idle",
       [
-        "sprite2", // 4
-        "sprite3", // 5
-        "sprite4", // 6
-        "sprite5", // 7
-        "sprite6", // 8
-        "sprite7", // 9
-        "sprite8", // 10
-        "sprite9",
-        "sprite10", // 11
-        "sprite11",
-        "sprite12", // 11
+        "Idle 1",
+        "Idle 2",
+        "Idle 3",
+        "Idle 4",
+        "Idle 5",
+        "Idle 6",
+        "Idle 7",
+        "Idle 8",
+        "Idle 9",
+        "Idle 10",
+        "Idle 11",
       ],
-      4
-    ); // 8 кадров в секунду - плавная анимация стойки
-
-    // Анимация ходьбы (run) - используем следующие 8 спрайтов (sprite44 - sprite51)
+      40
+    );
     animationManager.addAnimation(
       "run",
-      [
-        "sprite13", // 14
-        "sprite14", // 15
-        "sprite15", // 16
-        "sprite16", // 17
-        "sprite17", // 18
-        "sprite18", // 19 - завершение шага
-        "sprite19", // 18
-        "sprite20", // 19 - завершение шага
-      ],
-      6
-    ); // 12 кадров в секунду - быстрая анимация ходьбы
-
-    // Анимация прыжка (jump) - используем последние 2 спрайта (sprite52 - sprite53)
-    animationManager.addAnimation("jump_up", ["sprite23"], 1, false);
-
-    // Падение вниз
-    animationManager.addAnimation("jump_down", ["sprite22"], 1, true);
-
-    // Приземление
-    animationManager.addAnimation("land", ["sprite21"], 1, false);
+      ["Run 1", "Run 2", "Run 3", "Run 4", "Run 5", "Run 6", "Run 7", "Run 8"],
+      60
+    );
+    animationManager.addAnimation("jump_up", ["Jump 1"], 1, false);
+    animationManager.addAnimation("jump_down", ["Fall 1"], 1, true);
+    animationManager.addAnimation("land", ["Ground 1"], 1, false);
     animationManager.addAnimation(
       "attack",
+      ["Attack 1", "Attack 2", "Attack 3"],
+      34,
+      false
+    );
+
+    animationManager.addAnimation(
+      "diamond idle",
       [
-        "sprite24", // кадр 1 атаки
-        "sprite25", // кадр 2 атаки  
-        "sprite26"  // кадр 3 атаки
+        "Diamond Idle 1",
+        "Diamond Idle 2",
+        "Diamond Idle 3",
+        "Diamond Idle 4",
+        "Diamond Idle 5",
+        "Diamond Idle 6",
+        "Diamond Idle 7",
+        "Diamond Idle 8",
+        "Diamond Idle 9",
+        "Diamond Idle 10",
       ],
-      10, // скорость анимации атаки
-      false // не зацикливать - проигрывается один раз
+      40
+    );
+
+    animationManager.addAnimation(
+      "diamond hit",
+      ["Diamond Hit 1", "Diamond Hit 2"],
+      20,
+      false
+    );
+
+    animationManager.addAnimation(
+      "heart idle",
+      [
+        "Heart Idle 1",
+        "Heart Idle 2",
+        "Heart Idle 3",
+        "Heart Idle 4",
+        "Heart Idle 5",
+        "Heart Idle 6",
+        "Heart Idle 7",
+        "Heart Idle 8",
+      ],
+      40
+    );
+
+    animationManager.addAnimation(
+      "heart hit",
+      ["Heart Hit 1", "Heart Hit 2"],
+      20,
+      false
     );
   }
 

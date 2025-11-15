@@ -1,1 +1,84 @@
-[{"name":"sprite2","x":0,"y":0,"width":78,"height":44},{"name":"sprite3","x":78,"y":0,"width":78,"height":44},{"name":"sprite4","x":156,"y":0,"width":78,"height":44},{"name":"sprite5","x":234,"y":0,"width":78,"height":44},{"name":"sprite6","x":312,"y":0,"width":78,"height":44},{"name":"sprite7","x":390,"y":0,"width":78,"height":44},{"name":"sprite8","x":468,"y":0,"width":78,"height":44},{"name":"sprite9","x":546,"y":0,"width":78,"height":44},{"name":"sprite10","x":624,"y":0,"width":78,"height":44},{"name":"sprite11","x":702,"y":0,"width":78,"height":44},{"name":"sprite12","x":780,"y":0,"width":78,"height":44},{"name":"sprite13","x":0,"y":44,"width":78,"height":44},{"name":"sprite14","x":78,"y":44,"width":78,"height":44},{"name":"sprite15","x":156,"y":44,"width":78,"height":44},{"name":"sprite16","x":234,"y":44,"width":78,"height":44},{"name":"sprite17","x":312,"y":44,"width":78,"height":44},{"name":"sprite18","x":390,"y":44,"width":78,"height":44},{"name":"sprite19","x":468,"y":44,"width":78,"height":44},{"name":"sprite20","x":546,"y":44,"width":78,"height":44},{"name":"sprite21","x":0,"y":88,"width":78,"height":44},{"name":"sprite22","x":78,"y":88,"width":78,"height":44},{"name":"sprite23","x":156,"y":88,"width":78,"height":44},{"name":"sprite24","x":0,"y":133,"width":78,"height":58},{"name":"sprite25","x":78,"y":133,"width":78,"height":58},{"name":"sprite26","x":156,"y":133,"width":78,"height":58}]
+[
+  { "name": "Idle 1", "x": 9, "y": 0, "width": 37, "height": 44 },
+  { "name": "Idle 2", "x": 87, "y": 0, "width": 37, "height": 44 },
+  { "name": "Idle 3", "x": 165, "y": 0, "width": 37, "height": 44 },
+  { "name": "Idle 4", "x": 243, "y": 0, "width": 37, "height": 44 },
+  { "name": "Idle 5", "x": 321, "y": 0, "width": 37, "height": 44 },
+  { "name": "Idle 6", "x": 399, "y": 0, "width": 37, "height": 44 },
+  { "name": "Idle 7", "x": 477, "y": 0, "width": 37, "height": 44 },
+  { "name": "Idle 8", "x": 555, "y": 0, "width": 37, "height": 44 },
+  { "name": "Idle 9", "x": 633, "y": 0, "width": 37, "height": 44 },
+  { "name": "Idle 10", "x": 711, "y": 0, "width": 37, "height": 44 },
+  { "name": "Idle 11", "x": 789, "y": 0, "width": 37, "height": 44 },
+
+  { "name": "Door In 1", "x": 6, "y": 58, "width": 37, "height": 44 },
+  { "name": "Door In 2", "x": 94, "y": 58, "width": 37, "height": 44 },
+  { "name": "Door In 3", "x": 175, "y": 58, "width": 37, "height": 44 },
+  { "name": "Door In 4", "x": 253, "y": 58, "width": 37, "height": 44 },
+  { "name": "Door In 5", "x": 331, "y": 58, "width": 37, "height": 44 },
+  { "name": "Door In 6", "x": 409, "y": 58, "width": 37, "height": 44 },
+  { "name": "Door In 7", "x": 487, "y": 58, "width": 37, "height": 44 },
+  { "name": "Door In 8", "x": 565, "y": 58, "width": 37, "height": 44 },
+
+  { "name": "Door Out 1", "x": 16, "y": 116, "width": 37, "height": 44 },
+  { "name": "Door Out 2", "x": 94, "y": 116, "width": 37, "height": 44 },
+  { "name": "Door Out 3", "x": 172, "y": 116, "width": 37, "height": 44 },
+  { "name": "Door Out 4", "x": 250, "y": 116, "width": 37, "height": 44 },
+  { "name": "Door Out 5", "x": 328, "y": 116, "width": 37, "height": 44 },
+  { "name": "Door Out 6", "x": 398, "y": 116, "width": 37, "height": 44 },
+  { "name": "Door Out 7", "x": 476, "y": 116, "width": 37, "height": 44 },
+  { "name": "Door Out 8", "x": 555, "y": 116, "width": 37, "height": 44 },
+
+  { "name": "Run 1", "x": 9, "y": 174, "width": 37, "height": 44 },
+  { "name": "Run 2", "x": 87, "y": 174, "width": 37, "height": 44 },
+  { "name": "Run 3", "x": 165, "y": 174, "width": 37, "height": 44 },
+  { "name": "Run 4", "x": 243, "y": 174, "width": 37, "height": 44 },
+  { "name": "Run 5", "x": 321, "y": 174, "width": 37, "height": 44 },
+  { "name": "Run 6", "x": 399, "y": 174, "width": 37, "height": 44 },
+  { "name": "Run 7", "x": 477, "y": 174, "width": 37, "height": 44 },
+  { "name": "Run 8", "x": 555, "y": 174, "width": 37, "height": 44 },
+  
+  { "name": "Jump 1", "x": 633, "y": 174, "width": 37, "height": 44 },
+
+  { "name": "Dead 1", "x": 5, "y": 232, "width": 37, "height": 44 },
+  { "name": "Dead 2", "x": 80, "y": 232, "width": 38, "height": 44 },
+  { "name": "Dead 3", "x": 157, "y": 232, "width": 38, "height": 44 },
+  { "name": "Dead 4", "x": 234, "y": 232, "width": 38, "height": 44 },
+
+  { "name": "Attack 1", "x": 331, "y": 232, "width": 59, "height": 58 },
+  { "name": "Attack 2", "x": 412, "y": 232, "width": 59, "height": 58 },
+  { "name": "Attack 3", "x": 477, "y": 232, "width": 37, "height": 44 },
+
+  { "name": "Hit 1", "x": 553, "y": 232, "width": 37, "height": 44 },
+  { "name": "Hit 2", "x": 632, "y": 232, "width": 37, "height": 44 },
+
+  { "name": "Fall 1", "x": 711, "y": 232, "width": 37, "height": 44 },
+
+  { "name": "Ground 1", "x": 789, "y": 232, "width": 37, "height": 44 },
+
+  { "name": "Diamond Idle 1", "x": 5, "y": 292, "width": 12, "height": 10 },
+  { "name": "Diamond Idle 2", "x": 23, "y": 292, "width": 12, "height": 10 },
+  { "name": "Diamond Idle 3", "x": 41, "y": 292, "width": 12, "height": 10 },
+  { "name": "Diamond Idle 4", "x": 59, "y": 292, "width": 12, "height": 10 },
+  { "name": "Diamond Idle 5", "x": 77, "y": 292, "width": 12, "height": 10 },
+  { "name": "Diamond Idle 6", "x": 95, "y": 292, "width": 12, "height": 10 },
+  { "name": "Diamond Idle 7", "x": 113, "y": 292, "width": 12, "height": 10 },
+  { "name": "Diamond Idle 8", "x": 131, "y": 292, "width": 12, "height": 10 },
+  { "name": "Diamond Idle 9", "x": 149, "y": 292, "width": 12, "height": 10 },
+  { "name": "Diamond Idle 10", "x": 167, "y": 292, "width": 12, "height": 10 },
+
+  { "name": "Diamond Hit 1", "x": 329, "y": 292, "width": 12, "height": 10 },
+  { "name": "Diamond Hit 2", "x": 347, "y": 292, "width": 12, "height": 10 },
+
+  { "name": "Heart Idle 1", "x": 184, "y": 291, "width": 14, "height": 13 },
+  { "name": "Heart Idle 2", "x": 202, "y": 291, "width": 14, "height": 13 },
+  { "name": "Heart Idle 3", "x": 220, "y": 291, "width": 14, "height": 13 },
+  { "name": "Heart Idle 4", "x": 238, "y": 291, "width": 14, "height": 13 },
+  { "name": "Heart Idle 5", "x": 256, "y": 291, "width": 14, "height": 13 },
+  { "name": "Heart Idle 6", "x": 274, "y": 291, "width": 14, "height": 13 },
+  { "name": "Heart Idle 7", "x": 292, "y": 291, "width": 14, "height": 13 },
+  { "name": "Heart Idle 8", "x": 310, "y": 291, "width": 14, "height": 13 },
+
+  { "name": "Heart Hit 1", "x": 364, "y": 291, "width": 14, "height": 13 },
+  { "name": "Heart Hit 2", "x": 382, "y": 291, "width": 14, "height": 13 }
+]

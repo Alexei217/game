@@ -38,7 +38,7 @@ class SpriteManager {
     this.jsonLoaded = true;
   }
 
-  drawSprite(ctx, name, x, y, flip = false) {
+  drawSprite(entity, ctx, name, x, y, flip = false) {
     if (!this.imgLoaded || !this.jsonLoaded) {
       setTimeout((function () {
         this.drawSprite(ctx, name, x, y, flip);
@@ -56,7 +56,7 @@ class SpriteManager {
 
     if (flip) {
       ctx.save();
-      ctx.translate(screenX + sprite.w, screenY);
+      ctx.translate(screenX + entity.size_x, screenY);
       ctx.scale(-1, 1);
       ctx.drawImage(
         this.image,
