@@ -23,12 +23,12 @@ class MapManager {
     for (var i = 0; i < this.mapData.tilesets.length; i++) {
       var img = new Image();
 
-      img.onload = (function () {
+      img.onload = function () {
         this.imgLoadCount++;
         if (this.imgLoadCount === this.mapData.tilesets.length) {
           this.imgLoaded = true;
         }
-      }).bind(this);
+      }.bind(this);
 
       img.src = "map/" + this.mapData.tilesets[i].source.split(".")[0] + ".png";
 
@@ -37,8 +37,10 @@ class MapManager {
         firstgid: t.firstgid,
         image: img,
         name: t.name,
-        xCount: Math.floor(608 / this.tSize.x), // исправить хардкод
-        yCount: Math.floor(416 / this.tSize.y),
+        w: t.w,
+        h: t.h,
+        xCount: Math.floor(t.w / this.tSize.x), // исправить хардкод
+        yCount: Math.floor(t.h / this.tSize.y),
       };
       this.tilesets.push(ts);
     }
@@ -58,9 +60,12 @@ class MapManager {
 
   draw(ctx) {
     if (!this.imgLoaded || !this.jsonLoaded) {
-      setTimeout((function () {
-        this.draw(ctx);
-      }).bind(this), 100);
+      setTimeout(
+        function () {
+          this.draw(ctx);
+        }.bind(this),
+        100
+      );
     } else {
       if (this.tLayer.length === 0)
         for (var id = 0; id < this.mapData.layers.length; id++) {
@@ -129,9 +134,12 @@ class MapManager {
 
   parseEntities() {
     if (!this.imgLoaded || !this.jsonLoaded) {
-      setTimeout((function () {
-        this.parseEntities();
-      }).bind(this), 100);
+      setTimeout(
+        function () {
+          this.parseEntities();
+        }.bind(this),
+        100
+      );
     } else
       for (var j = 0; j < this.mapData.layers.length; j++)
         if (this.mapData.layers[j].type === "objectgroup") {
@@ -162,7 +170,11 @@ class MapManager {
     var idx =
       Math.floor(wY / this.tSize.y) * this.xCount +
       Math.floor(wX / this.tSize.x);
-    return this.tLayer[0].data[idx];
+    let ts = [];
+    for (var i = 0; i < this.tLayer.length; i++) {
+      ts.push(this.tLayer[i].data[idx]);
+    }
+    return ts;
   }
 
   centerAt(x, y) {
@@ -179,11 +191,11 @@ class MapManager {
 
   loadMap(path) {
     var request = new XMLHttpRequest();
-    request.onreadystatechange = (function () {
+    request.onreadystatechange = function () {
       if (request.readyState === 4 && request.status === 200) {
         this.parseMap(request.responseText);
       }
-    }).bind(this);
+    }.bind(this);
     request.open("GET", path, true);
     request.send();
   }

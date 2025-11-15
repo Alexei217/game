@@ -70,17 +70,15 @@ class PhysicManager {
   }
 
   hasGroundUnder(obj, x, y) {
-    var checkDistance = 1; // насколько глубоко проверяем под ногами
-
     // Проверяем только две точки под углами объекта
     var groundCheckPoints = [
-      { x: x, y: y + obj.size_y + checkDistance }, // левый нижний угол
-      { x: x + obj.size_x - 1, y: y + obj.size_y + checkDistance }, // правый нижний угол
+      { x: x, y: y + obj.size_y }, // левый нижний угол
+      { x: x + obj.size_x - 1, y: y + obj.size_y }, // правый нижний угол
     ];
 
     for (var point of groundCheckPoints) {
       var ts = mapManager.getTilesetIdx(point.x, point.y);
-      if (ts !== 155) {
+      if (ts.some(item => item !== 155 && item !== 0)) {
         // непроходимый тайл = земля
         return true;
       }
@@ -101,7 +99,7 @@ class PhysicManager {
     for (var point of points) {
       var ts = mapManager.getTilesetIdx(point.x, point.y);
       // Если тайл непроходим (ts !== 155)
-      if (ts !== 155) {
+      if (ts.some(item => item !== 155 && item !== 0)) {
         return false;
       }
     }

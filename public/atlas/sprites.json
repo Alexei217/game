@@ -80,5 +80,17 @@
   { "name": "Heart Idle 8", "x": 310, "y": 291, "width": 14, "height": 13 },
 
   { "name": "Heart Hit 1", "x": 364, "y": 291, "width": 14, "height": 13 },
-  { "name": "Heart Hit 2", "x": 382, "y": 291, "width": 14, "height": 13 }
+  { "name": "Heart Hit 2", "x": 382, "y": 291, "width": 14, "height": 13 },
+
+  { "name": "Door Opening 1", "x": 0, "y": 304, "width": 46, "height": 56 },
+  { "name": "Door Opening 2", "x": 46, "y": 304, "width": 46, "height": 56 },
+  { "name": "Door Opening 3", "x": 92, "y": 304, "width": 46, "height": 56 },
+  { "name": "Door Opening 4", "x": 138, "y": 304, "width": 46, "height": 56 },
+  { "name": "Door Opening 5", "x": 184, "y": 304, "width": 46, "height": 56 },
+
+  { "name": "Door Closing 1", "x": 230, "y": 304, "width": 46, "height": 56 },
+  { "name": "Door Closing 2", "x": 276, "y": 304, "width": 46, "height": 56 },
+  { "name": "Door Closing 3", "x": 322, "y": 304, "width": 46, "height": 56 },
+
+  { "name": "Door Idle 1", "x": 368, "y": 304, "width": 46, "height": 56 }
 ]

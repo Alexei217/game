@@ -43,6 +43,7 @@ class GameManager {
     this.factory["Player"] = Player;
     this.factory["Diamond"] = Diamond;
     this.factory["Heart"] = Heart;
+    this.factory["Door"] = Door;
     mapManager.parseEntities();
     this.initAnimations();
     mapManager.draw(ctx);
@@ -136,6 +137,49 @@ class GameManager {
       "heart hit",
       ["Heart Hit 1", "Heart Hit 2"],
       20,
+      false
+    );
+
+    animationManager.addAnimation(
+      "door idle",
+      ["Door Idle 1"],
+      3, // медленная анимация
+      true
+    );
+
+    animationManager.addAnimation(
+      "door opening",
+      [
+        "Door Opening 1",
+        "Door Opening 2",
+        "Door Opening 3",
+        "Door Opening 4",
+        "Door Opening 5",
+      ],
+      50, // быстрая анимация открытия
+      false // не зацикливать
+    );
+
+    animationManager.addAnimation(
+      "door closing",
+      ["Door Closing 1", "Door Closing 2", "Door Closing 3"],
+      70, // быстрая анимация закрытия
+      false // не зацикливать
+    );
+
+    animationManager.addAnimation(
+      "door in",
+      [
+        "Door In 1",
+        "Door In 2",
+        "Door In 3",
+        "Door In 4",
+        "Door In 5",
+        "Door In 6",
+        "Door In 7",
+        "Door In 8",
+      ],
+      30,
       false
     );
   }
