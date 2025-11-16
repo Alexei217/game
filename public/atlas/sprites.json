@@ -19,6 +19,7 @@
   { "name": "Door In 6", "x": 409, "y": 58, "width": 37, "height": 44 },
   { "name": "Door In 7", "x": 487, "y": 58, "width": 37, "height": 44 },
   { "name": "Door In 8", "x": 565, "y": 58, "width": 37, "height": 44 },
+  { "name": "O", "x": 500, "y": 304, "width": 46, "height": 56 },
 
   { "name": "Door Out 1", "x": 16, "y": 116, "width": 37, "height": 44 },
   { "name": "Door Out 2", "x": 94, "y": 116, "width": 37, "height": 44 },
@@ -92,5 +93,19 @@
   { "name": "Door Closing 2", "x": 276, "y": 304, "width": 46, "height": 56 },
   { "name": "Door Closing 3", "x": 322, "y": 304, "width": 46, "height": 56 },
 
-  { "name": "Door Idle 1", "x": 368, "y": 304, "width": 46, "height": 56 }
+  { "name": "Door Idle 1", "x": 368, "y": 304, "width": 46, "height": 56 },
+
+  { "name": "Key 1", "x": 10, "y": 361, "width": 13, "height": 31 },
+  { "name": "Key 2", "x": 42, "y": 361, "width": 13, "height": 31 },
+  { "name": "Key 3", "x": 74, "y": 361, "width": 13, "height": 31 },
+  { "name": "Key 4", "x": 106, "y": 361, "width": 13, "height": 31 },
+  { "name": "Key 5", "x": 137, "y": 361, "width": 13, "height": 31 },
+  { "name": "Key 6", "x": 169, "y": 361, "width": 13, "height": 31 },
+  { "name": "Key 7", "x": 201, "y": 361, "width": 13, "height": 31 },
+  { "name": "Key 8", "x": 233, "y": 361, "width": 13, "height": 31 },
+  { "name": "Key 9", "x": 265, "y": 361, "width": 13, "height": 31 },
+  { "name": "Key 10", "x": 298, "y": 361, "width": 13, "height": 31 },
+  { "name": "Key 11", "x": 330, "y": 361, "width": 13, "height": 31 },
+  { "name": "Key 12", "x": 362, "y": 361, "width": 13, "height": 31 }
+
 ]

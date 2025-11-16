@@ -44,16 +44,30 @@ class GameManager {
     this.factory["Diamond"] = Diamond;
     this.factory["Heart"] = Heart;
     this.factory["Door"] = Door;
+    this.factory["Key"] = Key;
     mapManager.parseEntities();
     this.initAnimations();
     mapManager.draw(ctx);
     eventsManager.setup(canvas);
     soundManager.init();
     soundManager.loadArray([
-      "/audio/1.mp3",
-      "/audio/explode.mp3",
+      "/audio/hit.mp3",
+      "/audio/jump.mp3",
       "/audio/diamond.mp3",
       "/audio/heart.mp3",
+      "/audio/door_locked.mp3",
+      "/audio/door.mp3",
+      "/audio/run1.mp3",
+      "/audio/run2.mp3",
+      "/audio/run3.mp3", 
+      "/audio/run4.mp3",
+      "/audio/run5.mp3",
+      "/audio/run6.mp3",
+      "/audio/run7.mp3",
+      "/audio/run8.mp3", 
+      "/audio/run9.mp3",
+      "/audio/run0.mp3", 
+      "/audio/use_door.mp3"
     ]);
     // soundManager.play("/audio/1.mp3", {
     //   volume: 0.5,
@@ -178,9 +192,29 @@ class GameManager {
         "Door In 6",
         "Door In 7",
         "Door In 8",
+        "O",
       ],
       30,
       false
+    );
+
+    animationManager.addAnimation(
+      "key",
+      [
+        "Key 1",
+        "Key 2",
+        "Key 3",
+        "Key 4",
+        "Key 5",
+        "Key 6",
+        "Key 7",
+        "Key 8",
+        "Key 9",
+        "Key 10",
+        "Key 11",
+        "Key 12",
+      ],
+      30
     );
   }
 

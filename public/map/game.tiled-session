@@ -3,16 +3,25 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "map.json",
     "expandedProjectPaths": [
+        "."
     ],
     "fileStates": {
+        "Decorations (32x32).tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Terrain (32x32).tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "map.json": {
-            "scale": 0.051953124999999996,
-            "selectedLayer": 0,
+            "scale": 0.5,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 635.1879699248121,
-                "y": 327.2180451127824
+                "x": 508,
+                "y": 408
             }
         },
         "map.tmx": {
@@ -22,8 +31,8 @@
             "scale": 1,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": -5,
-                "y": 475
+                "x": 640,
+                "y": 319
             }
         }
     },
@@ -32,9 +41,17 @@
     "map.lastUsedExportFilter": "JSON map-файлы (*.tmj *.json)",
     "map.lastUsedFormat": "tmx",
     "openFiles": [
+        "map.tmx",
+        "Decorations (32x32).tsx",
+        "Terrain (32x32).tsx",
+        "map.json"
     ],
     "project": "game.tiled-project",
     "recentFiles": [
+        "map.tmx",
+        "Decorations (32x32).tsx",
+        "Terrain (32x32).tsx",
+        "map.json"
     ],
     "tileset.lastUsedFormat": "tsx"
 }

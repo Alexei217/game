@@ -1,15 +1,16 @@
 class SoundManager {
   clips = {};
   context = null;
-  gainNode = null;
+  mainGainNode = null;
   loaded = false;
 
   init() {
     this.context = new AudioContext();
-    this.gainNode = this.context.createGain
+    this.mainGainNode = this.context.createGain
       ? this.context.createGain()
       : this.context.createGainNode();
-    this.gainNode.connect(this.context.destination);
+    this.mainGainNode.connect(this.context.destination);
+    this.mainGainNode.gain.value = 1;
   }
 
   load(path, callback) {
@@ -67,14 +68,36 @@ class SoundManager {
     }
     var sd = this.clips[path];
     if (sd === null) return false;
+    
     var sound = this.context.createBufferSource();
+    var soundGainNode = this.context.createGain
+      ? this.context.createGain()
+      : this.context.createGainNode();
+    
     sound.buffer = sd.buffer;
-    sound.connect(this.gainNode);
     sound.loop = looping;
-    this.gainNode.gain.value = volume;
-    sound.start(0);
 
-    return true;
+    sound.connect(soundGainNode);
+    soundGainNode.connect(this.mainGainNode);
+
+    
+    soundGainNode.gain.value = volume;
+    sound.start(0);
+  
+
+    return {
+      stop: function() {
+        try {
+          sound.stop();
+        } catch(e) {}
+      },
+      setVolume: function(newVolume) {
+        soundGainNode.gain.value = newVolume;
+      },
+      source: sound,
+      gainNode: soundGainNode
+    };
+
   }
 
   playWorldSound(path, x, y) {
@@ -88,17 +111,17 @@ class SoundManager {
     if (norm > 1) norm = 1;
     var volume = 1.0 - norm;
     if (!volume) return;
-    this.play(path, { looping: false, volume: volume });
+    return this.play(path, { looping: false, volume: volume });
   }
 
   toggleMute() {
-    if (this.gainNode.gain.value > 0) this.gainNode.gain.value = 0;
-    else this.gainNode.gain.value = 1;
+    if (this.mainGainNode.gain.value > 0) this.mainGainNode.gain.value = 0;
+    else this.mainGainNode.gain.value = 1;
   }
 
   stopAll() {
-    this.gainNode.disconnect();
-    this.gainNode = this.context.createGainNode(0);
-    this.gainNode.connect(this.context.destination);
+    this.mainGainNode.disconnect();
+    this.mainGainNode = this.context.createGainNode(0);
+    this.mainGainNode.connect(this.context.destination);
   }
 }

@@ -46,7 +46,7 @@ class Door extends Entity {
     this.isOpening = true;
     this.animationTimer = this.animationDuration;
 
-    //soundManager.play("/audio/door_open.mp3");
+    soundManager.play("/audio/door.mp3");
   }
 
   close() {
@@ -54,18 +54,17 @@ class Door extends Entity {
     this.isOpening = false;
     this.isClosing = true;
     this.animationTimer = this.animationDuration;
+    soundManager.play("/audio/door.mp3");
   }
 
   onPlayerInteract(player) {
-    if (this.isLocked) {
-      console.log("Door is locked!");
-      //soundManager.play("/audio/door_locked.mp3");
+    if (!player.haveKey) {
+      soundManager.play("/audio/door_locked.mp3");
       return;
     }
 
     if (!this.isOpen) {
       this.open();
-      console.log("Door opening!");
     } else {
       player.enterDoor(this);
     }

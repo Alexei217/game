@@ -5,6 +5,8 @@ class Player extends Entity {
     this.score = 0;
     this.lifetime = 100;
 
+    this.haveKey = false;
+
     this.move_x = 0;
     this.speed = 1;
     this.vel_x = 0;
@@ -31,8 +33,25 @@ class Player extends Entity {
 
     this.isUsingDoor = false;
     this.doorAnimationTimer = 0;
-    this.doorAnimationDuration = 300;
+    this.doorAnimationDuration = 400;
     this.currentDoor = null;
+
+    this.stepSounds = [
+      "/audio/run1.mp3",
+      "/audio/run2.mp3",
+      "/audio/run3.mp3", 
+      "/audio/run4.mp3",
+      "/audio/run5.mp3",
+      "/audio/run.mp3",
+      "/audio/run7.mp3",
+      "/audio/run8.mp3", 
+      "/audio/run9.mp3", 
+      "/audio/run0.mp3"
+    ];
+    this.stepTimer = 0;
+    this.stepInterval = 100;
+    this.lastStepIndex = -1;
+    this.wasOnGround = true;
   }
 
   draw(ctx) {
@@ -58,15 +77,13 @@ class Player extends Entity {
       this.collectHeart(entity);
     }
 
-    // if (entity instanceof Door) {
-    //   entity.open();
-    // }
+    if (entity instanceof Key) {
+      this.collectKey(entity);
+    }
   }
 
   collectDiamond(diamond) {
     if (diamond.collected) return;
-
-    diamond.collected = true;
 
     this.score += 100;
 
@@ -78,12 +95,20 @@ class Player extends Entity {
   collectHeart(heart) {
     if (heart.collected) return;
 
-    heart.collected = true;
-
     this.lifetime += 100;
 
     if (heart.startCollect) {
       heart.startCollect();
+    }
+  }
+
+  collectKey(key) {
+    if (key.collected) return;
+
+    this.haveKey = true;
+
+    if (key.startCollect) {
+      key.startCollect();
     }
   }
 
@@ -110,6 +135,8 @@ class Player extends Entity {
     if (this.move_x !== 0) {
       this.facingRight = this.move_x > 0;
     }
+
+    this.handleSounds();
 
     // стойка
     let animationType = "idle";
@@ -205,8 +232,7 @@ class Player extends Entity {
     this.attackTimer = this.attackDuration;
     this.canAttack = false;
     animationManager.resetAnimation(this, "attack");
-
-    soundManager.play("/audio/explode.mp3");
+    soundManager.play("/audio/hit.mp3");
 
     this.createAttackHitbox();
   }
@@ -303,6 +329,69 @@ class Player extends Entity {
     this.isUsingDoor = true;
     this.doorAnimationTimer = this.doorAnimationDuration;
     this.currentDoor = door;
-    //soundManager.play("/audio/door_enter.mp3");
+    soundManager.play("/audio/use_door.mp3", {
+      volume: 0.1,
+      looping: false
+    });
+  }
+
+  handleSounds() {
+    this.handleFootsteps(); // звуки шагов
+    this.handleJumpSound(); // звук прыжка
+  }
+
+  // ⭐ ЗВУКИ ШАГОВ
+  handleFootsteps() {
+    const isMoving = (this.move_x !== 0 && this.onGround);
+    
+    if (isMoving) {
+      this.stepTimer -= 1;
+      
+      if (this.stepTimer <= 0) {
+        this.playRandomFootstep();
+        
+        // Случайный интервал для естественности
+        this.stepTimer = this.stepInterval + Math.random() * 40 - 20; // ±20ms
+      }
+    } else {
+      this.stepTimer = 0;
+    }
+  }
+
+  playRandomFootstep() {
+    let randomIndex;
+    
+    // Исключаем повтор подряд одинаковых шагов
+    do {
+      randomIndex = Math.floor(Math.random() * this.stepSounds.length);
+    } while (randomIndex === this.lastStepIndex && this.stepSounds.length > 1);
+    
+    const stepSound = this.stepSounds[randomIndex];
+    console.log("Playing random step:", stepSound);
+    
+    soundManager.play(stepSound, {
+      volume: 0.1,
+      looping: false
+    });
+    
+    this.lastStepIndex = randomIndex;
+  }
+
+  // ⭐ ЗВУК ПРЫЖКА
+  handleJumpSound() {
+    // Определяем момент отрыва от земли (начало прыжка)
+    if (this.wasOnGround && !this.onGround && this.vel_y < 0) {
+      this.playJumpSound();
+    }
+    
+    this.wasOnGround = this.onGround;
+  }
+
+  playJumpSound() {
+    console.log("Playing jump sound");
+    soundManager.play("/audio/jump.mp3", {
+      volume: 0.7,
+      looping: false
+    });
   }
 }

@@ -50,7 +50,7 @@ class PhysicManager {
           break;
         }
       }
- 
+
       if (!collision) {
         obj.pos_y = targetY;
         obj.onGround = false;
@@ -78,7 +78,7 @@ class PhysicManager {
 
     for (var point of groundCheckPoints) {
       var ts = mapManager.getTilesetIdx(point.x, point.y);
-      if (ts.some(item => item !== 155 && item !== 0)) {
+      if (ts.some((item) => item !== 155 && item !== 0)) {
         // непроходимый тайл = земля
         return true;
       }
@@ -94,12 +94,17 @@ class PhysicManager {
       { x: x + obj.size_x - 1, y: y }, // верхний правый
       { x: x, y: y + obj.size_y - 1 }, // нижний левый
       { x: x + obj.size_x - 1, y: y + obj.size_y - 1 }, // нижний правый
+
+      { x: x + Math.floor(obj.size_x / 2), y: y }, // середина верхней стороны
+      { x: x + Math.floor(obj.size_x / 2), y: y + obj.size_y - 1 }, // середина нижней стороны
+      { x: x, y: y + Math.floor(obj.size_y / 2) }, // середина левой стороны
+      { x: x + obj.size_x - 1, y: y + Math.floor(obj.size_y / 2) }, // середина правой стороны
     ];
 
     for (var point of points) {
       var ts = mapManager.getTilesetIdx(point.x, point.y);
       // Если тайл непроходим (ts !== 155)
-      if (ts.some(item => item !== 155 && item !== 0)) {
+      if (ts.some((item) => item !== 155 && item !== 0)) {
         return false;
       }
     }
