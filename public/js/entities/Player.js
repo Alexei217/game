@@ -1,6 +1,7 @@
 class Player extends Entity {
   constructor() {
     super();
+    this.id = "player_" + Math.random();
 
     this.score = 0;
     this.lifetime = 100;
@@ -16,8 +17,6 @@ class Player extends Entity {
     this.jumpPower = 3;
     this.gravity = 0.08;
     this.maxFallSpeed = 10;
-
-    this.id = "player_" + Math.random();
 
     this.facingRight = true;
 
@@ -39,14 +38,14 @@ class Player extends Entity {
     this.stepSounds = [
       "/audio/run1.mp3",
       "/audio/run2.mp3",
-      "/audio/run3.mp3", 
+      "/audio/run3.mp3",
       "/audio/run4.mp3",
       "/audio/run5.mp3",
       "/audio/run.mp3",
       "/audio/run7.mp3",
-      "/audio/run8.mp3", 
-      "/audio/run9.mp3", 
-      "/audio/run0.mp3"
+      "/audio/run8.mp3",
+      "/audio/run9.mp3",
+      "/audio/run0.mp3",
     ];
     this.stepTimer = 0;
     this.stepInterval = 100;
@@ -113,15 +112,16 @@ class Player extends Entity {
   }
 
   update() {
+    // вход в дверь
     if (this.isUsingDoor) {
       this.doorAnimationTimer -= 1;
 
-      animationManager.updateAnimation(this, "door in", 1);
-
       if (this.doorAnimationTimer <= 0) {
-        this.currentDoor.close()
+        this.currentDoor.close();
         //gameManager.kill(this);
       }
+
+      animationManager.updateAnimation(this, "door in", 1);
       return;
     }
 
@@ -132,11 +132,11 @@ class Player extends Entity {
 
     physicManager.update(this);
 
+    this.handleSounds();
+
     if (this.move_x !== 0) {
       this.facingRight = this.move_x > 0;
     }
-
-    this.handleSounds();
 
     // стойка
     let animationType = "idle";
@@ -145,6 +145,7 @@ class Player extends Entity {
     if (this.isAttacking) {
       animationType = "attack";
     }
+
     // приземление
     else if (this.isLanding) {
       animationType = "land";
@@ -154,6 +155,7 @@ class Player extends Entity {
         this.isLanding = false;
       }
     }
+
     // полет
     else if (!this.onGround) {
       if (this.vel_y < 0) {
@@ -163,6 +165,7 @@ class Player extends Entity {
       }
       this.wasInAir = true;
     }
+
     // начало приземления
     else if (this.wasInAir) {
       animationType = "land";
@@ -170,6 +173,7 @@ class Player extends Entity {
       this.landingTimer = this.landingDuration;
       this.wasInAir = false;
     }
+
     // бег
     else if (this.move_x !== 0) {
       animationType = "run";
@@ -244,6 +248,7 @@ class Player extends Entity {
       this.canAttack = true;
     }, 300);
   }
+
   createAttackHitbox() {
     const attackX = this.facingRight
       ? this.pos_x + this.size_x
@@ -278,8 +283,6 @@ class Player extends Entity {
   }
 
   onAttackHit(entity) {
-    console.log("Attack hit:", entity.name);
-
     if (entity.takeDamage) {
       entity.takeDamage(1);
     }
@@ -315,7 +318,6 @@ class Player extends Entity {
           distance <= 15 &&
           entity.pos_y + entity.size_y == this.pos_y + this.size_y
         ) {
-          // радиус взаимодействия
           return entity;
         }
       }
@@ -331,7 +333,7 @@ class Player extends Entity {
     this.currentDoor = door;
     soundManager.play("/audio/use_door.mp3", {
       volume: 0.1,
-      looping: false
+      looping: false,
     });
   }
 
@@ -340,18 +342,13 @@ class Player extends Entity {
     this.handleJumpSound(); // звук прыжка
   }
 
-  // ⭐ ЗВУКИ ШАГОВ
   handleFootsteps() {
-    const isMoving = (this.move_x !== 0 && this.onGround);
-    
-    if (isMoving) {
+    if (this.move_x !== 0 && this.onGround) {
       this.stepTimer -= 1;
-      
+
       if (this.stepTimer <= 0) {
         this.playRandomFootstep();
-        
-        // Случайный интервал для естественности
-        this.stepTimer = this.stepInterval + Math.random() * 40 - 20; // ±20ms
+        this.stepTimer = this.stepInterval + Math.random() * 40 - 20;
       }
     } else {
       this.stepTimer = 0;
@@ -360,38 +357,32 @@ class Player extends Entity {
 
   playRandomFootstep() {
     let randomIndex;
-    
-    // Исключаем повтор подряд одинаковых шагов
+
     do {
       randomIndex = Math.floor(Math.random() * this.stepSounds.length);
     } while (randomIndex === this.lastStepIndex && this.stepSounds.length > 1);
-    
+
     const stepSound = this.stepSounds[randomIndex];
-    console.log("Playing random step:", stepSound);
-    
     soundManager.play(stepSound, {
       volume: 0.1,
-      looping: false
+      looping: false,
     });
-    
+
     this.lastStepIndex = randomIndex;
   }
 
-  // ⭐ ЗВУК ПРЫЖКА
   handleJumpSound() {
-    // Определяем момент отрыва от земли (начало прыжка)
     if (this.wasOnGround && !this.onGround && this.vel_y < 0) {
       this.playJumpSound();
     }
-    
+
     this.wasOnGround = this.onGround;
   }
 
   playJumpSound() {
-    console.log("Playing jump sound");
     soundManager.play("/audio/jump.mp3", {
       volume: 0.7,
-      looping: false
+      looping: false,
     });
   }
 }

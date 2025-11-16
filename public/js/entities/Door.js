@@ -6,7 +6,6 @@ class Door extends Entity {
     this.isOpen = false;
     this.isOpening = false;
     this.isClosing = false;
-    this.isLocked = false;
 
     this.animationTimer = 0;
     this.animationDuration = 150;
@@ -20,38 +19,36 @@ class Door extends Entity {
   }
 
   update() {
+    let animationType = "door idle";
     if (this.isClosing) {
-      animationManager.updateAnimation(this, "door closing", 1);
+      animationType = "door closing";
       this.animationTimer -= 1;
       if (this.animationTimer <= 0) {
         this.isOpen = false;
         this.isClosing = false;
       }
-      return;
     } else if (this.isOpening) {
-      animationManager.updateAnimation(this, "door opening", 1);
+      animationType = "door opening";
       this.animationTimer -= 1;
       if (this.animationTimer <= 0) {
         this.isOpen = true;
+        this.isOpening = false;
       }
-      return;
+    } else if (this.isOpen) {
+      animationType = "door open";
     }
-    const animationType = "door idle";
     animationManager.updateAnimation(this, animationType, 1);
   }
 
   open() {
-    if (this.isLocked || this.isOpening || this.isOpen) return;
-
+    if (this.isOpening || this.isOpen) return;
     this.isOpening = true;
     this.animationTimer = this.animationDuration;
-
     soundManager.play("/audio/door.mp3");
   }
 
   close() {
-    if (this.isLocked || this.isClosing || !this.isOpen) return;
-    this.isOpening = false;
+    if (this.isClosing || !this.isOpen) return;
     this.isClosing = true;
     this.animationTimer = this.animationDuration;
     soundManager.play("/audio/door.mp3");
@@ -68,10 +65,5 @@ class Door extends Entity {
     } else {
       player.enterDoor(this);
     }
-  }
-
-  // ⭐ УСТАНОВКА СВЯЗАННОЙ ДВЕРИ
-  setConnectedDoor(door) {
-    this.connectedDoor = door;
   }
 }

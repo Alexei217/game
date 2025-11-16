@@ -1,9 +1,12 @@
 class GameManager {
-  factory = {};
-  entities = [];
-  fireNum = 0;
-  player = null;
-  laterKill = [];
+
+  constructor() {
+    this.factory = {};
+    this.entities = [];
+    this.player = null;
+    this.laterKill = [];
+    this.score = 0;
+  }
 
   initPlayer(obj) {
     this.player = obj;
@@ -27,6 +30,7 @@ class GameManager {
       if (idx > -1) this.entities.splice(idx, 1);
     }
     if (this.laterKill.length > 0) this.laterKill.length = 0;
+
     mapManager.draw(ctx);
     mapManager.centerAt(this.player.pos_x, this.player.pos_y);
     this.draw(ctx);
@@ -45,9 +49,9 @@ class GameManager {
     this.factory["Heart"] = Heart;
     this.factory["Door"] = Door;
     this.factory["Key"] = Key;
+
     mapManager.parseEntities();
     this.initAnimations();
-    mapManager.draw(ctx);
     eventsManager.setup(canvas);
     soundManager.init();
     soundManager.loadArray([
@@ -67,12 +71,9 @@ class GameManager {
       "/audio/run8.mp3", 
       "/audio/run9.mp3",
       "/audio/run0.mp3", 
-      "/audio/use_door.mp3"
+      "/audio/use_door.mp3",
+      "/audio/key.mp3"
     ]);
-    // soundManager.play("/audio/1.mp3", {
-    //   volume: 0.5,
-    //   looping: true,
-    // });
   }
 
   initAnimations() {
@@ -157,8 +158,8 @@ class GameManager {
     animationManager.addAnimation(
       "door idle",
       ["Door Idle 1"],
-      3, // медленная анимация
-      true
+      1,
+      false
     );
 
     animationManager.addAnimation(
@@ -170,15 +171,24 @@ class GameManager {
         "Door Opening 4",
         "Door Opening 5",
       ],
-      50, // быстрая анимация открытия
-      false // не зацикливать
+      50,
+      false
+    );
+
+    animationManager.addAnimation(
+      "door open",
+      [
+        "Door Opening 5",
+      ],
+      1,
+      false
     );
 
     animationManager.addAnimation(
       "door closing",
       ["Door Closing 1", "Door Closing 2", "Door Closing 3"],
-      70, // быстрая анимация закрытия
-      false // не зацикливать
+      70,
+      false
     );
 
     animationManager.addAnimation(

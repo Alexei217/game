@@ -1,8 +1,10 @@
 class SpriteManager {
-  image = new Image();
-  sprites = new Array();
-  imgLoaded = false;
-  jsonLoaded = false;
+  constructor() {
+    this.image = new Image();
+    this.sprites = new Array();
+    this.imgLoaded = false;
+    this.jsonLoaded = false;
+  }
 
   loadAtlas(atlasJson, atlasImg) {
     var request = new XMLHttpRequest();

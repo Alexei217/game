@@ -1,15 +1,17 @@
 class MapManager {
-  mapData = null;
-  tLayer = new Array();
-  xCount = 0;
-  yCount = 0;
-  tSize = { x: 32, y: 32 };
-  mapSize = { x: 20, y: 30 };
-  tilesets = new Array();
-  imgLoadCount = 0;
-  imgLoaded = false;
-  jsonLoaded = false;
-  view = { x: 0, y: 0, w: 800, h: 640 };
+  constructor() {
+    this.mapData = null;
+    this.tLayer = new Array();
+    this.xCount = 0;
+    this.yCount = 0;
+    this.tSize = { x: 32, y: 32 };
+    this.mapSize = { x: 20, y: 30 };
+    this.tilesets = new Array();
+    this.imgLoadCount = 0;
+    this.imgLoaded = false;
+    this.jsonLoaded = false;
+    this.view = { x: 0, y: 0, w: 800, h: 640 };
+  }
 
   parseMap(tilesJSON) {
     this.mapData = JSON.parse(tilesJSON);
@@ -39,7 +41,7 @@ class MapManager {
         name: t.name,
         w: t.w,
         h: t.h,
-        xCount: Math.floor(t.w / this.tSize.x), // исправить хардкод
+        xCount: Math.floor(t.w / this.tSize.x),
         yCount: Math.floor(t.h / this.tSize.y),
       };
       this.tilesets.push(ts);

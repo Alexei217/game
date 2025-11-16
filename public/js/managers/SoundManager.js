@@ -1,8 +1,10 @@
 class SoundManager {
-  clips = {};
-  context = null;
-  mainGainNode = null;
-  loaded = false;
+  constructor() {
+    this.clips = {};
+    this.context = null;
+    this.mainGainNode = null;
+    this.loaded = false;
+  }
 
   init() {
     this.context = new AudioContext();
@@ -19,12 +21,12 @@ class SoundManager {
       return;
     }
     var clip = { path: path, buffer: null, loaded: false };
-    clip.play = (function (volume, loop) {
+    clip.play = function (volume, loop) {
       this.play(clip.path, {
         looping: loop ? loop : false,
         volume: volume ? volume : 1,
       });
-    }).bind(this);
+    }.bind(this);
     this.clips[path] = clip;
     var request = new XMLHttpRequest();
     request.open("GET", path, true);
@@ -41,15 +43,18 @@ class SoundManager {
 
   loadArray(array) {
     for (var i = 0; i < array.length; i++) {
-      this.load(array[i], (function () {
-        if (array.length === Object.keys(this.clips).length) {
-          for (let sd in this.clips) if (!this.clips[sd].loaded) return;
-          this.loaded = true;
-        }
-      }).bind(this));
+      this.load(
+        array[i],
+        function () {
+          if (array.length === Object.keys(this.clips).length) {
+            for (let sd in this.clips) if (!this.clips[sd].loaded) return;
+            this.loaded = true;
+          }
+        }.bind(this)
+      );
     }
   }
-  
+
   play(path, settings) {
     if (!this.loaded) {
       setTimeout(
@@ -68,36 +73,33 @@ class SoundManager {
     }
     var sd = this.clips[path];
     if (sd === null) return false;
-    
+
     var sound = this.context.createBufferSource();
     var soundGainNode = this.context.createGain
       ? this.context.createGain()
       : this.context.createGainNode();
-    
+
     sound.buffer = sd.buffer;
     sound.loop = looping;
 
     sound.connect(soundGainNode);
     soundGainNode.connect(this.mainGainNode);
 
-    
     soundGainNode.gain.value = volume;
     sound.start(0);
-  
 
     return {
-      stop: function() {
+      stop: function () {
         try {
           sound.stop();
-        } catch(e) {}
+        } catch (e) {}
       },
-      setVolume: function(newVolume) {
+      setVolume: function (newVolume) {
         soundGainNode.gain.value = newVolume;
       },
       source: sound,
-      gainNode: soundGainNode
+      gainNode: soundGainNode,
     };
-
   }
 
   playWorldSound(path, x, y) {

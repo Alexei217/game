@@ -115,8 +115,19 @@
                 }, 
                 {
                  "height":56,
+                 "id":12,
+                 "name":"door 1",
+                 "rotation":0,
+                 "type":"Door",
+                 "visible":true,
+                 "width":46,
+                 "x":131,
+                 "y":424
+                }, 
+                {
+                 "height":56,
                  "id":7,
-                 "name":"door",
+                 "name":"door 2",
                  "rotation":0,
                  "type":"Door",
                  "visible":true,
@@ -132,8 +143,8 @@
                  "type":"Player",
                  "visible":true,
                  "width":37,
-                 "x":119,
-                 "y":400
+                 "x":135,
+                 "y":436
                 }, 
                 {
                  "height":31,
@@ -153,12 +164,12 @@
          "y":0
         }],
  "nextlayerid":4,
- "nextobjectid":9,
+ "nextobjectid":13,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",
  "tileheight":32,
- "tilesets":[
+"tilesets":[
         {
          "firstgid":1,
          "source":"Terrain (32x32).tsx",

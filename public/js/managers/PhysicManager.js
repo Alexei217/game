@@ -1,26 +1,20 @@
 class PhysicManager {
   update(obj) {
-    if (obj.onGround) {
-      obj.onGround = this.hasGroundUnder(obj, obj.pos_x, obj.pos_y);
-    }
-
-    // Применяем гравитацию
     if (!obj.onGround) {
       obj.vel_y += obj.gravity;
-      // Ограничиваем максимальную скорость падения
+
       if (obj.vel_y > obj.maxFallSpeed) {
         obj.vel_y = obj.maxFallSpeed;
       }
     } else {
-      obj.vel_y = 0; // на земле вертикальная скорость = 0
+      obj.vel_y = 0;
     }
 
-    // Обрабатываем горизонтальное движение
+    // горизонтальное движение
     obj.vel_x = obj.move_x * obj.speed;
-    // Вычисляем новую позицию
+
     var newX = obj.pos_x + obj.vel_x;
 
-    // Проверяем столкновения по горизонтали
     if (obj.vel_x !== 0) {
       var canMoveX = this.canMoveTo(obj, newX, obj.pos_y);
       if (canMoveX) {
@@ -29,11 +23,10 @@ class PhysicManager {
         obj.vel_x = 0;
       }
     }
-
+    // вертикльное движение
     if (obj.vel_y !== 0) {
       var targetY = obj.pos_y + obj.vel_y;
 
-      // Если скорость высокая, используем пошаговую проверку
       var stepY = obj.vel_y > 0 ? 1 : -1;
       var steps = Math.abs(obj.vel_y);
       var currentY = obj.pos_y;
@@ -42,7 +35,6 @@ class PhysicManager {
       for (var i = 0; i < steps; i++) {
         currentY += stepY;
         if (!this.canMoveTo(obj, obj.pos_x, currentY)) {
-          // Столкновение! Останавливаемся у поверхности
           obj.pos_y = currentY - stepY;
           obj.vel_y = 0;
           if (stepY > 0) obj.onGround = true;
@@ -57,7 +49,6 @@ class PhysicManager {
       }
     }
 
-    // Проверяем столкновения с другими entity
     var e = this.entityAtXY(obj, obj.pos_x, obj.pos_y);
     if (e !== null && obj.onTouchEntity) {
       obj.onTouchEntity(e);
@@ -66,29 +57,27 @@ class PhysicManager {
     obj.pos_x = Math.round(obj.pos_x);
     obj.pos_y = Math.round(obj.pos_y);
 
-    return obj.vel_x !== 0 || obj.vel_y !== 0 ? "move" : "stop";
+    if (obj.onGround) {
+      obj.onGround = this.hasGroundUnder(obj, obj.pos_x, obj.pos_y);
+    }
   }
 
   hasGroundUnder(obj, x, y) {
-    // Проверяем только две точки под углами объекта
     var groundCheckPoints = [
-      { x: x, y: y + obj.size_y }, // левый нижний угол
-      { x: x + obj.size_x - 1, y: y + obj.size_y }, // правый нижний угол
+      { x: x, y: y + obj.size_y }, // нижний левый
+      { x: x + obj.size_x - 1, y: y + obj.size_y }, // нижний правый
     ];
 
     for (var point of groundCheckPoints) {
       var ts = mapManager.getTilesetIdx(point.x, point.y);
       if (ts.some((item) => item !== 155 && item !== 0)) {
-        // непроходимый тайл = земля
         return true;
       }
     }
     return false;
   }
 
-  // Проверяет, может ли объект переместиться в указанную позицию
   canMoveTo(obj, x, y) {
-    // Проверяем все 4 угла спрайта
     var points = [
       { x: x, y: y }, // верхний левый
       { x: x + obj.size_x - 1, y: y }, // верхний правый
@@ -103,7 +92,6 @@ class PhysicManager {
 
     for (var point of points) {
       var ts = mapManager.getTilesetIdx(point.x, point.y);
-      // Если тайл непроходим (ts !== 155)
       if (ts.some((item) => item !== 155 && item !== 0)) {
         return false;
       }
