@@ -1,5 +1,4 @@
 class GameManager {
-
   constructor() {
     this.factory = {};
     this.entities = [];
@@ -45,6 +44,7 @@ class GameManager {
     spriteManager.loadAtlas("/atlas/sprites.json", "/atlas/spritesheet.png");
 
     this.factory["Player"] = Player;
+    this.factory["Enemy"] = Enemy;
     this.factory["Diamond"] = Diamond;
     this.factory["Heart"] = Heart;
     this.factory["Door"] = Door;
@@ -57,22 +57,27 @@ class GameManager {
     soundManager.loadArray([
       "/audio/hit.mp3",
       "/audio/jump.mp3",
+      "/audio/pain.mp3",
+      "/audio/die.mp3",
       "/audio/diamond.mp3",
       "/audio/heart.mp3",
       "/audio/door_locked.mp3",
       "/audio/door.mp3",
       "/audio/run1.mp3",
       "/audio/run2.mp3",
-      "/audio/run3.mp3", 
+      "/audio/run3.mp3",
       "/audio/run4.mp3",
       "/audio/run5.mp3",
       "/audio/run6.mp3",
       "/audio/run7.mp3",
-      "/audio/run8.mp3", 
+      "/audio/run8.mp3",
       "/audio/run9.mp3",
-      "/audio/run0.mp3", 
+      "/audio/run0.mp3",
       "/audio/use_door.mp3",
-      "/audio/key.mp3"
+      "/audio/key.mp3",
+      "/audio/pig_attack.mp3",
+      "/audio/pig_pain.mp3",
+      "/audio/pig_die.mp3",
     ]);
   }
 
@@ -99,15 +104,23 @@ class GameManager {
       ["Run 1", "Run 2", "Run 3", "Run 4", "Run 5", "Run 6", "Run 7", "Run 8"],
       60
     );
+    animationManager.addAnimation(
+      "die",
+      ["Dead 1", "Dead 2", "Dead 3", "Dead 4"],
+      60,
+      false
+    );
     animationManager.addAnimation("jump_up", ["Jump 1"], 1, false);
     animationManager.addAnimation("jump_down", ["Fall 1"], 1, true);
     animationManager.addAnimation("land", ["Ground 1"], 1, false);
     animationManager.addAnimation(
       "attack",
       ["Attack 1", "Attack 2", "Attack 3"],
-      34,
+      40,
       false
     );
+
+    animationManager.addAnimation("damage", ["Hit 1", "Hit 2"], 40, false);
 
     animationManager.addAnimation(
       "diamond idle",
@@ -155,12 +168,7 @@ class GameManager {
       false
     );
 
-    animationManager.addAnimation(
-      "door idle",
-      ["Door Idle 1"],
-      1,
-      false
-    );
+    animationManager.addAnimation("door idle", ["Door Idle 1"], 1, false);
 
     animationManager.addAnimation(
       "door opening",
@@ -175,14 +183,7 @@ class GameManager {
       false
     );
 
-    animationManager.addAnimation(
-      "door open",
-      [
-        "Door Opening 5",
-      ],
-      1,
-      false
-    );
+    animationManager.addAnimation("door open", ["Door Opening 5"], 1, false);
 
     animationManager.addAnimation(
       "door closing",
@@ -226,6 +227,61 @@ class GameManager {
       ],
       30
     );
+
+    animationManager.addAnimation(
+      "pig idle",
+      [
+        "Pig Idle 12",
+        "Pig Idle 11",
+        "Pig Idle 10",
+        "Pig Idle 9",
+        "Pig Idle 8",
+        "Pig Idle 7",
+        "Pig Idle 6",
+        "Pig Idle 5",
+        "Pig Idle 4",
+        "Pig Idle 3",
+        "Pig Idle 2",
+        "Pig Idle 1",
+      ],
+      40
+    );
+    animationManager.addAnimation(
+      "pig run",
+      [
+        "Pig Run 6",
+        "Pig Run 5",
+        "Pig Run 4",
+        "Pig Run 3",
+        "Pig Run 2",
+        "Pig Run 1",
+      ],
+      60
+    );
+    animationManager.addAnimation(
+      "pig attack",
+      [
+        "Pig Attack 5",
+        "Pig Attack 4",
+        "Pig Attack 3",
+        "Pig Attack 2",
+        "Pig Attack 1",
+      ],
+      45,
+      false
+    );
+    animationManager.addAnimation(
+      "pig die",
+      ["Pig Dead 4", "Pig Dead 3", "Pig Dead 2", "Pig Dead 1"],
+      60,
+      false
+    );
+    animationManager.addAnimation(
+      "pig damage",
+      ["Pig Hit 2", "Pig Hit 1"],
+      40,
+      false
+    );
   }
 
   play() {
@@ -235,6 +291,6 @@ class GameManager {
       } catch (e) {
         console.log(e);
       }
-    }, 1);
+    }, 6);
   }
 }

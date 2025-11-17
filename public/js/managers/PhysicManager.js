@@ -66,6 +66,7 @@ class PhysicManager {
     var groundCheckPoints = [
       { x: x, y: y + obj.size_y }, // нижний левый
       { x: x + obj.size_x - 1, y: y + obj.size_y }, // нижний правый
+      { x: x + Math.floor(obj.size_x / 2), y: y + obj.size_y }, // середина нижней стороны
     ];
 
     for (var point of groundCheckPoints) {
@@ -78,13 +79,18 @@ class PhysicManager {
   }
 
   canMoveTo(obj, x, y) {
+    let shift = 0;
+    if(obj instanceof Player) {
+      shift = 12
+    }
+
     var points = [
-      { x: x, y: y }, // верхний левый
-      { x: x + obj.size_x - 1, y: y }, // верхний правый
+      { x: x, y: y + shift }, // верхний левый
+      { x: x + obj.size_x - 1, y: y + shift }, // верхний правый
       { x: x, y: y + obj.size_y - 1 }, // нижний левый
       { x: x + obj.size_x - 1, y: y + obj.size_y - 1 }, // нижний правый
 
-      { x: x + Math.floor(obj.size_x / 2), y: y }, // середина верхней стороны
+      { x: x + Math.floor(obj.size_x / 2), y: y + shift}, // середина верхней стороны
       { x: x + Math.floor(obj.size_x / 2), y: y + obj.size_y - 1 }, // середина нижней стороны
       { x: x, y: y + Math.floor(obj.size_y / 2) }, // середина левой стороны
       { x: x + obj.size_x - 1, y: y + Math.floor(obj.size_y / 2) }, // середина правой стороны
@@ -92,6 +98,7 @@ class PhysicManager {
 
     for (var point of points) {
       var ts = mapManager.getTilesetIdx(point.x, point.y);
+
       if (ts.some((item) => item !== 155 && item !== 0)) {
         return false;
       }

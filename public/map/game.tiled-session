@@ -17,11 +17,11 @@
             "scaleInEditor": 1
         },
         "map.json": {
-            "scale": 0.5,
+            "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 508,
-                "y": 408
+                "x": 545,
+                "y": 396.66666666666663
             }
         },
         "map.tmx": {
@@ -31,7 +31,7 @@
             "scale": 1,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 640,
+                "x": 639.5,
                 "y": 319
             }
         }

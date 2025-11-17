@@ -1,20 +1,16 @@
-class Player extends Entity {
+class Enemy extends Entity {
   constructor() {
     super();
-    this.id = "player_" + Math.random();
+    this.id = "enemy_" + Math.random();
 
-    this.score = 0;
     this.lifetime = 3;
 
-    this.haveKey = false;
-
     this.move_x = 0;
-    this.speed = 2;
+    this.speed = 1;
     this.vel_x = 0;
     this.vel_y = 0;
 
     this.onGround = false;
-    this.jumpPower = 3;
     this.gravity = 0.08;
     this.maxFallSpeed = 10;
 
@@ -22,18 +18,8 @@ class Player extends Entity {
 
     this.isAttacking = false;
     this.attackTimer = 0;
-    this.attackDuration = 90;
+    this.attackDuration = 150;
     this.canAttack = true;
-
-    this.wasInAir = false;
-    this.isLanding = false;
-    this.landingTimer = 0;
-    this.landingDuration = 20;
-
-    this.isUsingDoor = false;
-    this.doorAnimationTimer = 0;
-    this.doorAnimationDuration = 400;
-    this.currentDoor = null;
 
     this.stepSounds = [
       "/audio/run1.mp3",
@@ -75,64 +61,7 @@ class Player extends Entity {
     );
   }
 
-  onTouchEntity(entity) {
-    if (entity instanceof Diamond) {
-      this.collectDiamond(entity);
-    }
-
-    if (entity instanceof Heart) {
-      this.collectHeart(entity);
-    }
-
-    if (entity instanceof Key) {
-      this.collectKey(entity);
-    }
-  }
-
-  collectDiamond(diamond) {
-    if (diamond.collected) return;
-
-    this.score += 100;
-
-    if (diamond.startCollect) {
-      diamond.startCollect();
-    }
-  }
-
-  collectHeart(heart) {
-    if (heart.collected) return;
-
-    this.lifetime += 100;
-
-    if (heart.startCollect) {
-      heart.startCollect();
-    }
-  }
-
-  collectKey(key) {
-    if (key.collected) return;
-
-    this.haveKey = true;
-
-    if (key.startCollect) {
-      key.startCollect();
-    }
-  }
-
   update() {
-    // вход в дверь
-    if (this.isUsingDoor) {
-      this.doorAnimationTimer -= 1;
-
-      if (this.doorAnimationTimer <= 0) {
-        this.currentDoor.close();
-        //gameManager.kill(this);
-      }
-
-      animationManager.updateAnimation(this, "door in", 1);
-      return;
-    }
-
     // смерть
     if (this.isDying) {
       this.dieTimer -= 1;
@@ -141,14 +70,12 @@ class Player extends Entity {
         //gameManager.kill(this);
       }
 
-      animationManager.updateAnimation(this, "die", 1);
+      animationManager.updateAnimation(this, "pig die", 1);
       return;
     }
 
     this.handleMove();
-    this.handleJump();
-    this.handleAttack();
-    this.handleDoorInteract();
+    //this.handleAttack();
 
     physicManager.update(this);
 
@@ -159,11 +86,11 @@ class Player extends Entity {
     }
 
     // стойка
-    let animationType = "idle";
+    let animationType = "pig idle";
 
     // получение урона
     if (this.isTakingDamage) {
-      animationType = "damage";
+      animationType = "pig damage";
       this.takeDamageTimer -= 1;
 
       if (this.takeDamageTimer <= 0) {
@@ -173,40 +100,12 @@ class Player extends Entity {
 
     // атака
     else if (this.isAttacking) {
-      animationType = "attack";
-    }
-
-    // приземление
-    else if (this.isLanding) {
-      animationType = "land";
-      this.landingTimer -= 1;
-
-      if (this.landingTimer <= 0) {
-        this.isLanding = false;
-      }
-    }
-
-    // полет
-    else if (!this.onGround) {
-      if (this.vel_y < 0) {
-        animationType = "jump_up";
-      } else {
-        animationType = "jump_down";
-      }
-      this.wasInAir = true;
-    }
-
-    // начало приземления
-    else if (this.wasInAir) {
-      animationType = "land";
-      this.isLanding = true;
-      this.landingTimer = this.landingDuration;
-      this.wasInAir = false;
+      animationType = "pig attack";
     }
 
     // бег
     else if (this.move_x !== 0) {
-      animationType = "run";
+      animationType = "pig run";
     }
 
     animationManager.updateAnimation(this, animationType, 1);
@@ -214,28 +113,8 @@ class Player extends Entity {
 
   handleMove() {
     this.move_x = 0;
-    if (eventsManager.action["left"]) this.move_x = -1;
-    if (eventsManager.action["right"]) this.move_x = 1;
-  }
-
-  handleJump() {
-    if (eventsManager.action["up"] && !this.upPressed) {
-      this.jump();
-      this.upPressed = true;
-    }
-
-    if (!eventsManager.action["up"]) {
-      this.upPressed = false;
-    }
-  }
-
-  jump() {
-    if (this.onGround) {
-      this.vel_y = -this.jumpPower;
-      this.onGround = false;
-      this.isLanding = false;
-      this.wasInAir = true;
-    }
+    if (this.pos_x > gameManager.player.pos_x) this.move_x = -1;
+    if (this.pos_x < gameManager.player.pos_x) this.move_x = 1;
   }
 
   handleAttack() {
@@ -267,8 +146,8 @@ class Player extends Entity {
     this.isAttacking = true;
     this.attackTimer = this.attackDuration;
     this.canAttack = false;
-    animationManager.resetAnimation(this, "attack");
-    soundManager.play("/audio/hit.mp3");
+    animationManager.resetAnimation(this, "pig attack");
+    soundManager.play("/audio/pig_attack.mp3");
 
     this.createAttackHitbox();
   }
@@ -328,12 +207,12 @@ class Player extends Entity {
       if (this.lifetime <= 0) {
         this.isDying = true;
         this.dieTimer = this.dieDuration;
-        soundManager.play("/audio/die.mp3", {
+        soundManager.play("/audio/pig_die.mp3", {
           volume: 0.7,
           looping: false,
         });
       } else {
-        soundManager.play("/audio/pain.mp3", {
+        soundManager.play("/audio/pig_pain.mp3", {
           volume: 0.7,
           looping: false,
         });
@@ -345,56 +224,8 @@ class Player extends Entity {
     }
   }
 
-  handleDoorInteract() {
-    if (eventsManager.action["interact"] && !this.interactPressed) {
-      this.interactPressed = true;
-      this.tryInteractWithDoor();
-    }
-
-    if (!eventsManager.action["interact"]) {
-      this.interactPressed = false;
-    }
-  }
-
-  tryInteractWithDoor() {
-    const nearbyDoor = this.findNearbyDoor();
-    if (nearbyDoor) {
-      nearbyDoor.onPlayerInteract(this);
-    }
-  }
-
-  findNearbyDoor() {
-    for (let entity of gameManager.entities) {
-      if (entity instanceof Door) {
-        const distance = this.pos_x - entity.pos_x;
-
-        if (
-          0 <= distance &&
-          distance <= 15 &&
-          entity.pos_y + entity.size_y == this.pos_y + this.size_y
-        ) {
-          return entity;
-        }
-      }
-    }
-    return null;
-  }
-
-  enterDoor(door) {
-    if (this.isUsingDoor) return;
-
-    this.isUsingDoor = true;
-    this.doorAnimationTimer = this.doorAnimationDuration;
-    this.currentDoor = door;
-    soundManager.play("/audio/use_door.mp3", {
-      volume: 0.1,
-      looping: false,
-    });
-  }
-
   handleSounds() {
     this.handleFootsteps(); // звуки шагов
-    this.handleJumpSound(); // звук прыжка
   }
 
   handleFootsteps() {
@@ -424,20 +255,5 @@ class Player extends Entity {
     });
 
     this.lastStepIndex = randomIndex;
-  }
-
-  handleJumpSound() {
-    if (this.wasOnGround && !this.onGround && this.vel_y < 0) {
-      this.playJumpSound();
-    }
-
-    this.wasOnGround = this.onGround;
-  }
-
-  playJumpSound() {
-    soundManager.play("/audio/jump.mp3", {
-      volume: 0.7,
-      looping: false,
-    });
   }
 }
