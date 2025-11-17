@@ -49,6 +49,9 @@ class GameManager {
     this.factory["Heart"] = Heart;
     this.factory["Door"] = Door;
     this.factory["Key"] = Key;
+    this.factory["RedBoost"] = RedBoost;
+    this.factory["BlueBoost"] = BlueBoost;
+    
 
     mapManager.parseEntities();
     this.initAnimations();
@@ -78,6 +81,7 @@ class GameManager {
       "/audio/pig_attack.mp3",
       "/audio/pig_pain.mp3",
       "/audio/pig_die.mp3",
+      "/audio/bottle.mp3",
     ]);
   }
 
@@ -224,6 +228,34 @@ class GameManager {
         "Key 10",
         "Key 11",
         "Key 12",
+      ],
+      30
+    );
+
+    animationManager.addAnimation(
+      "red boost",
+      [
+        "Red Boost 1",
+        "Red Boost 2",
+        "Red Boost 3",
+        "Red Boost 4",
+        "Red Boost 5",
+        "Red Boost 6",
+        "Red Boost 7",
+      ],
+      30
+    );
+
+    animationManager.addAnimation(
+      "blue boost",
+      [
+        "Blue Boost 1",
+        "Blue Boost 2",
+        "Blue Boost 3",
+        "Blue Boost 4",
+        "Blue Boost 5",
+        "Blue Boost 6",
+        "Blue Boost 7",
       ],
       30
     );

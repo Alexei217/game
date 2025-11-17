@@ -140,5 +140,21 @@
   { "name": "Pig Dead 4", "x": 312, "y": 420, "width": 19, "height": 28 },
 
   { "name": "Pig Hit 1", "x": 351, "y": 420, "width": 18, "height": 28 },
-  { "name": "Pig Hit 2", "x": 388, "y": 420, "width": 18, "height": 28 }
+  { "name": "Pig Hit 2", "x": 388, "y": 420, "width": 18, "height": 28 }, 
+
+  { "name": "Red Boost 1", "x": 2, "y": 451, "width": 9, "height": 14 },
+  { "name": "Red Boost 2", "x": 15, "y": 451, "width": 9, "height": 14 },
+  { "name": "Red Boost 3", "x": 28, "y": 451, "width": 9, "height": 14 },
+  { "name": "Red Boost 4", "x": 41, "y": 451, "width": 9, "height": 14 },
+  { "name": "Red Boost 5", "x": 54, "y": 451, "width": 9, "height": 14 },
+  { "name": "Red Boost 6", "x": 67, "y": 451, "width": 9, "height": 14 },
+  { "name": "Red Boost 7", "x": 80, "y": 451, "width": 9, "height": 14 }, 
+
+  { "name": "Blue Boost 1", "x": 3, "y": 469, "width": 7, "height": 13 },
+  { "name": "Blue Boost 2", "x": 16, "y": 469, "width": 7, "height": 13 },
+  { "name": "Blue Boost 3", "x": 29, "y": 469, "width": 7, "height": 13 },
+  { "name": "Blue Boost 4", "x": 42, "y": 469, "width": 7, "height": 13 },
+  { "name": "Blue Boost 5", "x": 55, "y": 469, "width": 7, "height": 13 },
+  { "name": "Blue Boost 6", "x": 68, "y": 469, "width": 7, "height": 13 },
+  { "name": "Blue Boost 7", "x": 81, "y": 469, "width": 7, "height": 13 }
 ]

@@ -59,6 +59,10 @@ class Player extends Entity {
     this.isDying = false;
     this.dieTimer = 0;
     this.dieDuration = 90;
+
+    this.isBoosting = false;
+    this.boostTimer = 0;
+    this.boostDuration = 1000;
   }
 
   draw(ctx) {
@@ -86,6 +90,14 @@ class Player extends Entity {
 
     if (entity instanceof Key) {
       this.collectKey(entity);
+    }
+
+    if (entity instanceof RedBoost) {
+      this.collectRedBoost(entity);
+    }
+
+    if (entity instanceof BlueBoost) {
+      this.collectBlueBoost(entity);
     }
   }
 
@@ -119,6 +131,30 @@ class Player extends Entity {
     }
   }
 
+  collectRedBoost(boost) {
+    if (boost.collected) return;
+
+    this.jumpPower += 2;
+    this.boostTimer = this.boostDuration;
+    this.isBoosting = true;
+
+    if (boost.startCollect) {
+      boost.startCollect();
+    }
+  }
+
+  collectBlueBoost(boost) {
+    if (boost.collected) return;
+
+    this.speed += 1;
+    this.boostTimer = this.boostDuration;
+    this.isBoosting = true;
+
+    if (boost.startCollect) {
+      boost.startCollect();
+    }
+  }
+
   update() {
     // вход в дверь
     if (this.isUsingDoor) {
@@ -143,6 +179,17 @@ class Player extends Entity {
 
       animationManager.updateAnimation(this, "die", 1);
       return;
+    }
+
+    // проверка времени бустов
+    if (this.isBoosting) {
+      this.boostTimer -= 1;
+
+      if (this.boostTimer <= 0) {
+        this.isBoosting = false;
+        this.speed = 2;
+        this.jumpPower = 3;
+      }
     }
 
     this.handleMove();
@@ -282,7 +329,7 @@ class Player extends Entity {
   }
 
   createAttackHitbox() {
-    const range = 22
+    const range = 22;
     const attackX = this.facingRight
       ? this.pos_x + Math.floor(this.size_x / 2)
       : this.pos_x - range;
@@ -342,7 +389,6 @@ class Player extends Entity {
 
       this.isTakingDamage = true;
       this.takeDamageTimer = this.takeDamageDuration;
-      console.log(this.lifetime);
     }
   }
 

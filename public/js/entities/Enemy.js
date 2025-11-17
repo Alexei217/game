@@ -5,6 +5,8 @@ class Enemy extends Entity {
 
     this.lifetime = 30000;
 
+    this.range = 2;
+
     this.move_x = 0;
     this.speed = 1;
     this.vel_x = 0;
@@ -113,8 +115,16 @@ class Enemy extends Entity {
 
   handleMove() {
     this.move_x = 0;
-    if (this.pos_x > gameManager.player.pos_x) this.move_x = -1;
-    if (this.pos_x < gameManager.player.pos_x) this.move_x = 1;
+    if (
+      this.pos_x + Math.floor(this.size_x / 2) >
+      gameManager.player.pos_x + Math.floor(gameManager.player.size_x / 2)
+    )
+      this.move_x = -1;
+    if (
+      this.pos_x + Math.floor(this.size_x / 2) <
+      gameManager.player.pos_x + Math.floor(gameManager.player.size_x / 2)
+    )
+      this.move_x = 1;
     // this.move_x = 0;
     // if (eventsManager.action["left"]) this.move_x = -1;
     // if (eventsManager.action["right"]) this.move_x = 1;
@@ -122,20 +132,16 @@ class Enemy extends Entity {
 
   handleAttack() {
     if (
-      eventsManager.action["attack"] &&
+        Math.abs(
+        (this.pos_x + Math.floor(this.size_x / 2)) - (gameManager.player.pos_x + Math.floor(gameManager.player.size_x / 2))
+      ) <= this.range &&
+      this.pos_y + this.size_y == gameManager.player.pos_y + gameManager.player.size_y &&
       this.canAttack &&
       !this.isAttacking &&
-      !this.isTakingDamage &&
-      !this.attackPressed
+      !this.isTakingDamage
     ) {
-      this.attackPressed = true;
       this.startAttack();
     }
-
-    if (!eventsManager.action["attack"]) {
-      this.attackPressed = false;
-    }
-
     if (this.isAttacking) {
       this.attackTimer -= 1;
 
@@ -150,7 +156,10 @@ class Enemy extends Entity {
     this.attackTimer = this.attackDuration;
     this.canAttack = false;
     animationManager.resetAnimation(this, "pig attack");
-    soundManager.play("/audio/pig_attack.mp3");
+    soundManager.play("/audio/pig_attack.mp3", {
+      volume: 0.4,
+      looping: false,
+    });
 
     this.createAttackHitbox();
   }
@@ -164,14 +173,13 @@ class Enemy extends Entity {
   }
 
   createAttackHitbox() {
-    const range = 2;
     const attackX = this.facingRight
       ? this.pos_x + Math.floor(this.size_x / 2)
-      : this.pos_x - range;
+      : this.pos_x - this.range;
 
     const attackY = this.pos_y;
 
-    const attackWidth = range + Math.floor(this.size_x / 2);
+    const attackWidth = this.range + Math.floor(this.size_x / 2);
     const attackHeight = 28;
 
     this.checkAttackHit(attackX, attackY, attackWidth, attackHeight);
@@ -224,7 +232,6 @@ class Enemy extends Entity {
 
       this.isTakingDamage = true;
       this.takeDamageTimer = this.takeDamageDuration;
-      console.log(this.lifetime);
     }
   }
 
