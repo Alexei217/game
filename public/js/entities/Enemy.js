@@ -3,7 +3,7 @@ class Enemy extends Entity {
     super();
     this.id = "enemy_" + Math.random();
 
-    this.lifetime = 3;
+    this.lifetime = 30000;
 
     this.move_x = 0;
     this.speed = 1;
@@ -75,7 +75,7 @@ class Enemy extends Entity {
     }
 
     this.handleMove();
-    //this.handleAttack();
+    this.handleAttack();
 
     physicManager.update(this);
 
@@ -115,6 +115,9 @@ class Enemy extends Entity {
     this.move_x = 0;
     if (this.pos_x > gameManager.player.pos_x) this.move_x = -1;
     if (this.pos_x < gameManager.player.pos_x) this.move_x = 1;
+    // this.move_x = 0;
+    // if (eventsManager.action["left"]) this.move_x = -1;
+    // if (eventsManager.action["right"]) this.move_x = 1;
   }
 
   handleAttack() {
@@ -161,14 +164,15 @@ class Enemy extends Entity {
   }
 
   createAttackHitbox() {
+    const range = 2;
     const attackX = this.facingRight
-      ? this.pos_x + this.size_x
-      : this.pos_x - 30;
+      ? this.pos_x + Math.floor(this.size_x / 2)
+      : this.pos_x - range;
 
-    const attackY = this.pos_y + 10;
+    const attackY = this.pos_y;
 
-    const attackWidth = 30;
-    const attackHeight = 30;
+    const attackWidth = range + Math.floor(this.size_x / 2);
+    const attackHeight = 28;
 
     this.checkAttackHit(attackX, attackY, attackWidth, attackHeight);
   }

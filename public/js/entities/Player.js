@@ -4,7 +4,7 @@ class Player extends Entity {
     this.id = "player_" + Math.random();
 
     this.score = 0;
-    this.lifetime = 3;
+    this.lifetime = 300;
 
     this.haveKey = false;
 
@@ -282,14 +282,15 @@ class Player extends Entity {
   }
 
   createAttackHitbox() {
+    const range = 22
     const attackX = this.facingRight
-      ? this.pos_x + this.size_x
-      : this.pos_x - 30;
+      ? this.pos_x + Math.floor(this.size_x / 2)
+      : this.pos_x - range;
 
-    const attackY = this.pos_y + 10;
+    const attackY = this.pos_y;
 
-    const attackWidth = 30;
-    const attackHeight = 30;
+    const attackWidth = range + Math.floor(this.size_x / 2);
+    const attackHeight = 44;
 
     this.checkAttackHit(attackX, attackY, attackWidth, attackHeight);
   }
