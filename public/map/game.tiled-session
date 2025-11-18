@@ -39,7 +39,7 @@
     "last.exportedFilePath": "/home/alexei/REPO/game/public/map",
     "last.imagePath": "/home/alexei/REPO/game/public/map",
     "map.lastUsedExportFilter": "JSON map-файлы (*.tmj *.json)",
-    "map.lastUsedFormat": "tmx",
+    "map.lastUsedFormat": "json",
     "openFiles": [
         "map.tmx",
         "Decorations (32x32).tsx",

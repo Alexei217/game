@@ -36,7 +36,7 @@ class Enemy extends Entity {
       "/audio/run0.mp3",
     ];
     this.stepTimer = 0;
-    this.stepInterval = 25;
+    this.stepInterval = 20;
     this.lastStepIndex = -1;
 
     this.isTakingDamage = false;
@@ -47,7 +47,7 @@ class Enemy extends Entity {
     this.dieTimer = 0;
     this.dieDuration = 90;
 
-    this.patrolSpeed = 1; 
+    this.patrolSpeed = 1;
     this.chaseSpeed = 2;
     this.detectionRange = 150;
     this.patrolDirection = 1;
@@ -129,11 +129,9 @@ class Enemy extends Entity {
       Math.abs(this.pos_y - player.pos_y) < 100;
 
     if (canSeePlayer && !player.isDying) {
-      // Режим преследования
+      // режим преследования
       this.isChasing = true;
       this.speed = this.chaseSpeed;
-
-      // Двигаемся к игроку
       if (
         Math.abs(
           this.pos_x +
@@ -154,12 +152,11 @@ class Enemy extends Entity {
         this.move_x = 1;
       }
 
-      // Обновляем направление взгляда
       if (this.move_x !== 0) {
         this.facingRight = this.move_x > 0;
       }
     } else {
-      // Режим патрулирования
+      // режим патрулирования
       this.isChasing = false;
       this.speed = this.patrolSpeed;
       this.patrol();
@@ -167,20 +164,16 @@ class Enemy extends Entity {
   }
 
   patrol() {
-    // Если достигли границы патрулирования или уперлись в стену - разворачиваемся
-
     if (this.isFacingWall()) {
       this.patrolDirection *= -1;
     }
 
     this.move_x = this.patrolDirection;
 
-    // Обновляем направление взгляда
     this.facingRight = this.patrolDirection > 0;
   }
 
   isFacingWall() {
-    // Проверяем, есть ли стена в направлении движения
     const checkX = this.facingRight
       ? this.pos_x + this.size_x + this.wallCheckDistance
       : this.pos_x - this.wallCheckDistance;
@@ -188,10 +181,8 @@ class Enemy extends Entity {
     const checkY = this.pos_y;
 
     const ts = mapManager.getTilesetIdx(checkX, checkY);
-    return ts.some((item) => item !== 155 && item !== 0);
+    return ts.some((item) => !physicManager.PASSABLE_TILES.includes(item));
   }
-
-  // ... остальные методы остаются без изменений ...
 
   handleAttack() {
     if (
@@ -284,7 +275,7 @@ class Enemy extends Entity {
     if (!this.isTakingDamage) {
       this.lifetime -= damage;
       if (this.lifetime <= 0) {
-        gameManager.player.score += 200
+        gameManager.player.score += 200;
         this.isDying = true;
         this.dieTimer = this.dieDuration;
         soundManager.play("/audio/pig_die.mp3", {

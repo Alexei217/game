@@ -14,7 +14,7 @@ class Player extends Entity {
     this.vel_y = 0;
 
     this.onGround = false;
-    this.jumpPower = 4;
+    this.jumpPower = 6;
     this.gravity = 0.2;
     this.maxFallSpeed = 10;
 
@@ -187,7 +187,7 @@ class Player extends Entity {
       if (this.boostTimer <= 0) {
         this.isBoosting = false;
         this.speed = 3;
-        this.jumpPower = 4;
+        this.jumpPower = 6;
       }
     }
 
