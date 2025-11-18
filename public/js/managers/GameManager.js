@@ -40,7 +40,7 @@ class GameManager {
   }
 
   loadAll() {
-    mapManager.loadMap("/map/map.json");
+    mapManager.loadMap("/map/map2.json");
     spriteManager.loadAtlas("/atlas/sprites.json", "/atlas/spritesheet.png");
 
     this.factory["Player"] = Player;

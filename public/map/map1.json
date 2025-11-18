@@ -49,7 +49,7 @@
          "name":"\u0421\u043b\u043e\u0439 \u0442\u0430\u0439\u043b\u043e\u0432 2",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":40,
          "x":0,
          "y":0
@@ -89,7 +89,7 @@
                  "type":"Heart",
                  "visible":true,
                  "width":14,
-                 "x":1177,
+                 "x":1161,
                  "y":387
                 }, 
                 {
@@ -115,15 +115,26 @@
                  "y":168
                 }, 
                 {
-                 "height":28,
-                 "id":1,
-                 "name":"enemy",
+                 "height":31,
+                 "id":8,
+                 "name":"key",
                  "rotation":0,
-                 "type":"Enemy",
+                 "type":"Key",
                  "visible":true,
-                 "width":18,
-                 "x":1093,
-                 "y":388
+                 "width":13,
+                 "x":1065,
+                 "y":369
+                }, 
+                {
+                 "height":13,
+                 "id":23,
+                 "name":"blue boost",
+                 "rotation":0,
+                 "type":"BlueBoost",
+                 "visible":true,
+                 "width":7,
+                 "x":556,
+                 "y":171
                 }, 
                 {
                  "height":44,
@@ -137,26 +148,15 @@
                  "y":328
                 }, 
                 {
-                 "height":31,
-                 "id":8,
-                 "name":"key",
+                 "height":28,
+                 "id":1,
+                 "name":"enemy",
                  "rotation":0,
-                 "type":"Key",
+                 "type":"Enemy",
                  "visible":true,
-                 "width":13,
-                 "x":1120,
-                 "y":369
-                }, 
-                {
-                 "height":13,
-                 "id":23,
-                 "name":"blue boost",
-                 "rotation":0,
-                 "type":"BlueBoost",
-                 "visible":true,
-                 "width":7,
-                 "x":556,
-                 "y":171
+                 "width":18,
+                 "x":1093,
+                 "y":388
                 }],
          "opacity":1,
          "type":"objectgroup",

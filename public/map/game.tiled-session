@@ -17,11 +17,14 @@
             "scaleInEditor": 1
         },
         "map.json": {
+            "expandedObjectLayers": [
+                3
+            ],
             "scale": 2,
-            "selectedLayer": 2,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 235.25,
-                "y": 396.5
+                "x": 238.25,
+                "y": 169
             }
         },
         "map.tmx": {
@@ -31,15 +34,39 @@
             "scale": 1,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 639.5,
+                "x": 638.5,
                 "y": 319
+            }
+        },
+        "map1.json": {
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 0.75,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 780.6666666666666,
+                "y": 212
+            }
+        },
+        "map2.json": {
+            "expandedObjectLayers": [
+                2
+            ],
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 303.5,
+                "y": 556
             }
         }
     },
     "last.exportedFilePath": "/home/alexei/REPO/game/public/map",
     "last.imagePath": "/home/alexei/REPO/game/public/map",
+    "map.height": 40,
     "map.lastUsedExportFilter": "JSON map-файлы (*.tmj *.json)",
     "map.lastUsedFormat": "json",
+    "map.width": 25,
     "openFiles": [
         "map.tmx",
         "Decorations (32x32).tsx",
@@ -49,9 +76,9 @@
     "project": "game.tiled-project",
     "recentFiles": [
         "map.tmx",
-        "Decorations (32x32).tsx",
+        "map.json",
         "Terrain (32x32).tsx",
-        "map.json"
+        "Decorations (32x32).tsx"
     ],
     "resizeMap.removeObjects": false,
     "tileset.lastUsedFormat": "tsx"

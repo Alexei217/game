@@ -133,7 +133,7 @@ class Player extends Entity {
   collectRedBoost(boost) {
     if (boost.collected) return;
 
-    this.jumpPower += 2;
+    this.jumpPower += 3;
     this.boostTimer = this.boostDuration;
     this.isBoosting = true;
 
