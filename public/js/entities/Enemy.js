@@ -3,7 +3,7 @@ class Enemy extends Entity {
     super();
     this.id = "enemy_" + Math.random();
 
-    this.lifetime = 30000;
+    this.lifetime = 1;
 
     this.range = 2;
 
@@ -20,7 +20,7 @@ class Enemy extends Entity {
 
     this.isAttacking = false;
     this.attackTimer = 0;
-    this.attackDuration = 150;
+    this.attackDuration = 55;
     this.canAttack = true;
 
     this.stepSounds = [
@@ -36,17 +36,23 @@ class Enemy extends Entity {
       "/audio/run0.mp3",
     ];
     this.stepTimer = 0;
-    this.stepInterval = 100;
+    this.stepInterval = 25;
     this.lastStepIndex = -1;
-    this.wasOnGround = true;
 
     this.isTakingDamage = false;
     this.takeDamageTimer = 0;
-    this.takeDamageDuration = 90;
+    this.takeDamageDuration = 40;
 
     this.isDying = false;
     this.dieTimer = 0;
     this.dieDuration = 90;
+
+    this.patrolSpeed = 1; 
+    this.chaseSpeed = 2;
+    this.detectionRange = 150;
+    this.patrolDirection = 1;
+    this.isChasing = false;
+    this.wallCheckDistance = 10;
   }
 
   draw(ctx) {
@@ -83,10 +89,6 @@ class Enemy extends Entity {
 
     this.handleSounds();
 
-    if (this.move_x !== 0) {
-      this.facingRight = this.move_x > 0;
-    }
-
     // стойка
     let animationType = "pig idle";
 
@@ -114,31 +116,96 @@ class Enemy extends Entity {
   }
 
   handleMove() {
-    this.move_x = 0;
-    if (
-      this.pos_x + Math.floor(this.size_x / 2) >
-      gameManager.player.pos_x + Math.floor(gameManager.player.size_x / 2)
-    )
-      this.move_x = -1;
-    if (
-      this.pos_x + Math.floor(this.size_x / 2) <
-      gameManager.player.pos_x + Math.floor(gameManager.player.size_x / 2)
-    )
-      this.move_x = 1;
-    // this.move_x = 0;
-    // if (eventsManager.action["left"]) this.move_x = -1;
-    // if (eventsManager.action["right"]) this.move_x = 1;
+    const player = gameManager.player;
+
+    const distanceToPlayer = Math.abs(
+      this.pos_x +
+        Math.floor(this.size_x / 2) -
+        (player.pos_x + Math.floor(player.size_x / 2))
+    );
+
+    const canSeePlayer =
+      distanceToPlayer <= this.detectionRange &&
+      Math.abs(this.pos_y - player.pos_y) < 100;
+
+    if (canSeePlayer && !player.isDying) {
+      // Режим преследования
+      this.isChasing = true;
+      this.speed = this.chaseSpeed;
+
+      // Двигаемся к игроку
+      if (
+        Math.abs(
+          this.pos_x +
+            Math.floor(this.size_x / 2) -
+            (player.pos_x + Math.floor(player.size_x / 2))
+        ) <= 1
+      ) {
+        this.move_x = 0;
+      } else if (
+        this.pos_x + Math.floor(this.size_x / 2) >
+        player.pos_x + Math.floor(player.size_x / 2)
+      ) {
+        this.move_x = -1;
+      } else if (
+        this.pos_x + Math.floor(this.size_x / 2) <
+        player.pos_x + Math.floor(player.size_x / 2)
+      ) {
+        this.move_x = 1;
+      }
+
+      // Обновляем направление взгляда
+      if (this.move_x !== 0) {
+        this.facingRight = this.move_x > 0;
+      }
+    } else {
+      // Режим патрулирования
+      this.isChasing = false;
+      this.speed = this.patrolSpeed;
+      this.patrol();
+    }
   }
+
+  patrol() {
+    // Если достигли границы патрулирования или уперлись в стену - разворачиваемся
+
+    if (this.isFacingWall()) {
+      this.patrolDirection *= -1;
+    }
+
+    this.move_x = this.patrolDirection;
+
+    // Обновляем направление взгляда
+    this.facingRight = this.patrolDirection > 0;
+  }
+
+  isFacingWall() {
+    // Проверяем, есть ли стена в направлении движения
+    const checkX = this.facingRight
+      ? this.pos_x + this.size_x + this.wallCheckDistance
+      : this.pos_x - this.wallCheckDistance;
+
+    const checkY = this.pos_y;
+
+    const ts = mapManager.getTilesetIdx(checkX, checkY);
+    return ts.some((item) => item !== 155 && item !== 0);
+  }
+
+  // ... остальные методы остаются без изменений ...
 
   handleAttack() {
     if (
-        Math.abs(
-        (this.pos_x + Math.floor(this.size_x / 2)) - (gameManager.player.pos_x + Math.floor(gameManager.player.size_x / 2))
+      Math.abs(
+        this.pos_x +
+          Math.floor(this.size_x / 2) -
+          (gameManager.player.pos_x + Math.floor(gameManager.player.size_x / 2))
       ) <= this.range &&
-      this.pos_y + this.size_y == gameManager.player.pos_y + gameManager.player.size_y &&
+      this.pos_y + this.size_y ==
+        gameManager.player.pos_y + gameManager.player.size_y &&
       this.canAttack &&
       !this.isAttacking &&
-      !this.isTakingDamage
+      !this.isTakingDamage &&
+      !gameManager.player.isDying
     ) {
       this.startAttack();
     }
@@ -217,6 +284,7 @@ class Enemy extends Entity {
     if (!this.isTakingDamage) {
       this.lifetime -= damage;
       if (this.lifetime <= 0) {
+        gameManager.player.score += 200
         this.isDying = true;
         this.dieTimer = this.dieDuration;
         soundManager.play("/audio/pig_die.mp3", {
@@ -236,16 +304,12 @@ class Enemy extends Entity {
   }
 
   handleSounds() {
-    this.handleFootsteps(); // звуки шагов
-  }
-
-  handleFootsteps() {
     if (this.move_x !== 0 && this.onGround) {
       this.stepTimer -= 1;
 
       if (this.stepTimer <= 0) {
         this.playRandomFootstep();
-        this.stepTimer = this.stepInterval + Math.random() * 40 - 20;
+        this.stepTimer = this.stepInterval + Math.random();
       }
     } else {
       this.stepTimer = 0;
@@ -261,7 +325,7 @@ class Enemy extends Entity {
 
     const stepSound = this.stepSounds[randomIndex];
     soundManager.play(stepSound, {
-      volume: 0.1,
+      volume: 0.05,
       looping: false,
     });
 

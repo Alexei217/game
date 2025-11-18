@@ -17,11 +17,11 @@
             "scaleInEditor": 1
         },
         "map.json": {
-            "scale": 1.5,
+            "scale": 2,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 545,
-                "y": 396.66666666666663
+                "x": 235.25,
+                "y": 396.5
             }
         },
         "map.tmx": {
@@ -53,5 +53,6 @@
         "Terrain (32x32).tsx",
         "map.json"
     ],
+    "resizeMap.removeObjects": false,
     "tileset.lastUsedFormat": "tsx"
 }

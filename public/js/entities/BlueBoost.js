@@ -25,7 +25,7 @@ class BlueBoost extends Entity {
   startCollect() {
     this.collected = true;
     soundManager.play("/audio/bottle.mp3", {
-      volume: 0.5,
+      volume: 0.4,
       looping: false,
     });
   }

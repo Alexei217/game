@@ -8,7 +8,7 @@ class Door extends Entity {
     this.isClosing = false;
 
     this.animationTimer = 0;
-    this.animationDuration = 150;
+    this.animationDuration = 50;
   }
 
   draw(ctx) {

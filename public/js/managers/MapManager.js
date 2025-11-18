@@ -10,7 +10,7 @@ class MapManager {
     this.imgLoadCount = 0;
     this.imgLoaded = false;
     this.jsonLoaded = false;
-    this.view = { x: 0, y: 0, w: 800, h: 640 };
+    this.view = { x: 0, y: 0, w: 800, h: 480 };
   }
 
   parseMap(tilesJSON) {

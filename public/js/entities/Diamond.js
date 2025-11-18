@@ -5,7 +5,7 @@ class Diamond extends Entity {
 
     this.collected = false;
     this.collectTimer = 0;
-    this.collectDuration = 150;
+    this.collectDuration = 50;
   }
 
   draw(ctx) {
@@ -33,6 +33,9 @@ class Diamond extends Entity {
   startCollect() {
     this.collected = true;
     this.collectTimer = this.collectDuration;
-    soundManager.play("/audio/diamond.mp3");
+    soundManager.play("/audio/diamond.mp3", {
+      volume: 0.5,
+      looping: false,
+    });
   }
 }

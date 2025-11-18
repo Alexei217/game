@@ -101,17 +101,17 @@ class GameManager {
         "Idle 10",
         "Idle 11",
       ],
-      40
+      120
     );
     animationManager.addAnimation(
       "run",
       ["Run 1", "Run 2", "Run 3", "Run 4", "Run 5", "Run 6", "Run 7", "Run 8"],
-      60
+      170
     );
     animationManager.addAnimation(
       "die",
       ["Dead 1", "Dead 2", "Dead 3", "Dead 4"],
-      60,
+      100,
       false
     );
     animationManager.addAnimation("jump_up", ["Jump 1"], 1, false);
@@ -120,11 +120,28 @@ class GameManager {
     animationManager.addAnimation(
       "attack",
       ["Attack 1", "Attack 2", "Attack 3"],
-      40,
+      120,
       false
     );
 
-    animationManager.addAnimation("damage", ["Hit 1", "Hit 2"], 40, false);
+    animationManager.addAnimation("damage", ["Hit 1", "Hit 2"], 80, false);
+
+    animationManager.addAnimation(
+      "door in",
+      [
+        "Door In 1",
+        "Door In 2",
+        "Door In 3",
+        "Door In 4",
+        "Door In 5",
+        "Door In 6",
+        "Door In 7",
+        "Door In 8",
+        "O",
+      ],
+      120,
+      false
+    );
 
     animationManager.addAnimation(
       "diamond idle",
@@ -140,13 +157,13 @@ class GameManager {
         "Diamond Idle 9",
         "Diamond Idle 10",
       ],
-      40
+      140
     );
 
     animationManager.addAnimation(
       "diamond hit",
       ["Diamond Hit 1", "Diamond Hit 2"],
-      20,
+      40,
       false
     );
 
@@ -162,13 +179,13 @@ class GameManager {
         "Heart Idle 7",
         "Heart Idle 8",
       ],
-      40
+      120
     );
 
     animationManager.addAnimation(
       "heart hit",
       ["Heart Hit 1", "Heart Hit 2"],
-      20,
+      40,
       false
     );
 
@@ -183,7 +200,7 @@ class GameManager {
         "Door Opening 4",
         "Door Opening 5",
       ],
-      50,
+      200,
       false
     );
 
@@ -192,24 +209,7 @@ class GameManager {
     animationManager.addAnimation(
       "door closing",
       ["Door Closing 1", "Door Closing 2", "Door Closing 3"],
-      70,
-      false
-    );
-
-    animationManager.addAnimation(
-      "door in",
-      [
-        "Door In 1",
-        "Door In 2",
-        "Door In 3",
-        "Door In 4",
-        "Door In 5",
-        "Door In 6",
-        "Door In 7",
-        "Door In 8",
-        "O",
-      ],
-      30,
+      150,
       false
     );
 
@@ -229,7 +229,7 @@ class GameManager {
         "Key 11",
         "Key 12",
       ],
-      30
+      120
     );
 
     animationManager.addAnimation(
@@ -243,7 +243,7 @@ class GameManager {
         "Red Boost 6",
         "Red Boost 7",
       ],
-      30
+      100
     );
 
     animationManager.addAnimation(
@@ -257,7 +257,7 @@ class GameManager {
         "Blue Boost 6",
         "Blue Boost 7",
       ],
-      30
+      100
     );
 
     animationManager.addAnimation(
@@ -276,7 +276,7 @@ class GameManager {
         "Pig Idle 2",
         "Pig Idle 1",
       ],
-      40
+      150
     );
     animationManager.addAnimation(
       "pig run",
@@ -288,7 +288,7 @@ class GameManager {
         "Pig Run 2",
         "Pig Run 1",
       ],
-      60
+      160
     );
     animationManager.addAnimation(
       "pig attack",
@@ -299,13 +299,13 @@ class GameManager {
         "Pig Attack 2",
         "Pig Attack 1",
       ],
-      45,
+      100,
       false
     );
     animationManager.addAnimation(
       "pig die",
       ["Pig Dead 4", "Pig Dead 3", "Pig Dead 2", "Pig Dead 1"],
-      60,
+      100,
       false
     );
     animationManager.addAnimation(
@@ -323,6 +323,6 @@ class GameManager {
       } catch (e) {
         console.log(e);
       }
-    }, 6);
+    }, 16);
   }
 }

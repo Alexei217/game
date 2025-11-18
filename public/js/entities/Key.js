@@ -24,6 +24,9 @@ class Key extends Entity {
 
   startCollect() {
     this.collected = true;
-    soundManager.play("/audio/key.mp3");
+    soundManager.play("/audio/key.mp3", {
+      volume: 0.7,
+      looping: false,
+    });
   }
 }

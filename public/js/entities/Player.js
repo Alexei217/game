@@ -4,35 +4,35 @@ class Player extends Entity {
     this.id = "player_" + Math.random();
 
     this.score = 0;
-    this.lifetime = 300;
+    this.lifetime = 2;
 
     this.haveKey = false;
 
     this.move_x = 0;
-    this.speed = 2;
+    this.speed = 3;
     this.vel_x = 0;
     this.vel_y = 0;
 
     this.onGround = false;
-    this.jumpPower = 3;
-    this.gravity = 0.08;
+    this.jumpPower = 4;
+    this.gravity = 0.2;
     this.maxFallSpeed = 10;
 
     this.facingRight = true;
 
     this.isAttacking = false;
     this.attackTimer = 0;
-    this.attackDuration = 90;
+    this.attackDuration = 30;
     this.canAttack = true;
 
     this.wasInAir = false;
     this.isLanding = false;
     this.landingTimer = 0;
-    this.landingDuration = 20;
+    this.landingDuration = 5;
 
     this.isUsingDoor = false;
     this.doorAnimationTimer = 0;
-    this.doorAnimationDuration = 400;
+    this.doorAnimationDuration = 150;
     this.currentDoor = null;
 
     this.stepSounds = [
@@ -48,13 +48,12 @@ class Player extends Entity {
       "/audio/run0.mp3",
     ];
     this.stepTimer = 0;
-    this.stepInterval = 100;
+    this.stepInterval = 25;
     this.lastStepIndex = -1;
-    this.wasOnGround = true;
 
     this.isTakingDamage = false;
     this.takeDamageTimer = 0;
-    this.takeDamageDuration = 90;
+    this.takeDamageDuration = 40;
 
     this.isDying = false;
     this.dieTimer = 0;
@@ -62,7 +61,7 @@ class Player extends Entity {
 
     this.isBoosting = false;
     this.boostTimer = 0;
-    this.boostDuration = 1000;
+    this.boostDuration = 500;
   }
 
   draw(ctx) {
@@ -114,7 +113,7 @@ class Player extends Entity {
   collectHeart(heart) {
     if (heart.collected) return;
 
-    this.lifetime += 100;
+    this.lifetime += 1;
 
     if (heart.startCollect) {
       heart.startCollect();
@@ -187,8 +186,8 @@ class Player extends Entity {
 
       if (this.boostTimer <= 0) {
         this.isBoosting = false;
-        this.speed = 2;
-        this.jumpPower = 3;
+        this.speed = 3;
+        this.jumpPower = 4;
       }
     }
 
@@ -200,10 +199,6 @@ class Player extends Entity {
     physicManager.update(this);
 
     this.handleSounds();
-
-    if (this.move_x !== 0) {
-      this.facingRight = this.move_x > 0;
-    }
 
     // стойка
     let animationType = "idle";
@@ -263,6 +258,10 @@ class Player extends Entity {
     this.move_x = 0;
     if (eventsManager.action["left"]) this.move_x = -1;
     if (eventsManager.action["right"]) this.move_x = 1;
+
+    if (this.move_x !== 0) {
+      this.facingRight = this.move_x > 0;
+    }
   }
 
   handleJump() {
@@ -282,6 +281,8 @@ class Player extends Entity {
       this.onGround = false;
       this.isLanding = false;
       this.wasInAir = true;
+
+      this.playJumpSound();
     }
   }
 
@@ -440,17 +441,12 @@ class Player extends Entity {
   }
 
   handleSounds() {
-    this.handleFootsteps(); // звуки шагов
-    this.handleJumpSound(); // звук прыжка
-  }
-
-  handleFootsteps() {
     if (this.move_x !== 0 && this.onGround) {
       this.stepTimer -= 1;
 
       if (this.stepTimer <= 0) {
         this.playRandomFootstep();
-        this.stepTimer = this.stepInterval + Math.random() * 40 - 20;
+        this.stepTimer = this.stepInterval;
       }
     } else {
       this.stepTimer = 0;
@@ -471,14 +467,6 @@ class Player extends Entity {
     });
 
     this.lastStepIndex = randomIndex;
-  }
-
-  handleJumpSound() {
-    if (this.wasOnGround && !this.onGround && this.vel_y < 0) {
-      this.playJumpSound();
-    }
-
-    this.wasOnGround = this.onGround;
   }
 
   playJumpSound() {
