@@ -3,7 +3,7 @@ class Enemy extends Entity {
     super();
     this.id = "enemy_" + Math.random();
 
-    this.lifetime = 1;
+    this.lifetime = 3;
 
     this.range = 2;
 

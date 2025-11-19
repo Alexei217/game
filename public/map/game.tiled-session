@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "map2.json",
+    "activeFile": "map1.json",
     "expandedProjectPaths": [
         "."
     ],
@@ -42,22 +42,19 @@
             "expandedObjectLayers": [
                 3
             ],
-            "scale": 0.75,
-            "selectedLayer": 2,
-            "viewCenter": {
-                "x": 700.6666666666666,
-                "y": 240
-            }
-        },
-        "map2.json": {
-            "expandedObjectLayers": [
-                2
-            ],
             "scale": 1.5,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 361,
-                "y": 886.6666666666666
+                "x": 349.66666666666663,
+                "y": 287.33333333333337
+            }
+        },
+        "map2.json": {
+            "scale": 1.5,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 400.3333333333333,
+                "y": 592
             }
         }
     },
@@ -74,9 +71,9 @@
     ],
     "project": "game.tiled-project",
     "recentFiles": [
-        "map1.json",
-        "Decorations (32x32).tsx",
         "map2.json",
+        "Decorations (32x32).tsx",
+        "map1.json",
         "map.tmx",
         "map.json",
         "Terrain (32x32).tsx"

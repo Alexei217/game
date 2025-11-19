@@ -4,7 +4,7 @@ class Player extends Entity {
     this.id = "player_" + Math.random();
 
     this.score = 0;
-    this.lifetime = 2;
+    this.lifetime = 3;
 
     this.haveKey = false;
 
