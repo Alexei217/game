@@ -81,7 +81,7 @@ class GameManager {
       "/audio/pig_attack.mp3",
       "/audio/pig_pain.mp3",
       "/audio/pig_die.mp3",
-      "/audio/bottle.mp3",
+      "/audio/bottle.mp3"
     ]);
   }
 

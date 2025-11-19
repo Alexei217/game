@@ -16,17 +16,7 @@ class SoundManager {
   }
 
   load(path, callback) {
-    if (this.clips[path]) {
-      callback(this.clips[path]);
-      return;
-    }
     var clip = { path: path, buffer: null, loaded: false };
-    clip.play = function (volume, loop) {
-      this.play(clip.path, {
-        looping: loop ? loop : false,
-        volume: volume ? volume : 1,
-      });
-    }.bind(this);
     this.clips[path] = clip;
     var request = new XMLHttpRequest();
     request.open("GET", path, true);
@@ -109,11 +99,10 @@ class SoundManager {
     var dy = Math.abs(gameManager.player.pos_y - y);
     var distance = Math.sqrt(dx * dx + dy * dy);
     var norm = distance / viewSize;
-    console.log(norm);
     if (norm > 1) norm = 1;
     var volume = 1.0 - norm;
     if (!volume) return;
-    return this.play(path, { looping: false, volume: volume });
+    return this.play(path, { looping: false, volume: volume / 5 });
   }
 
   toggleMute() {

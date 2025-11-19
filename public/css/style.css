@@ -8,7 +8,7 @@ body {
       background-color: #3e3950;
     }
 
-/* #canvasId {
-  width: 8000px;
-  height: 800px;
-} */
+#canvasId {
+  width: 1200px;
+  height: 720px;
+}

@@ -315,10 +315,7 @@ class Enemy extends Entity {
     } while (randomIndex === this.lastStepIndex && this.stepSounds.length > 1);
 
     const stepSound = this.stepSounds[randomIndex];
-    soundManager.play(stepSound, {
-      volume: 0.05,
-      looping: false,
-    });
+    soundManager.playWorldSound(stepSound, this.pos_x, this.pos_y);
 
     this.lastStepIndex = randomIndex;
   }
