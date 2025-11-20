@@ -389,7 +389,7 @@ class GameManager {
   updateHpDisplay(hp = 0) {
     const hpDisplay = document.getElementById("hpDisplay");
     if (hpDisplay) {
-      hpDisplay.textContent = `Hp: ${hp}`;
+      hpDisplay.textContent = `HP: ${hp}`;
     }
   }
 

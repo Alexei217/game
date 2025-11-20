@@ -29,6 +29,7 @@ body {
 #canvasId {
   width: 1200px;
   height: 720px;
+  border-radius: 8px;
 }
 
 .menu {
