@@ -276,6 +276,14 @@ class Enemy extends Entity {
       this.lifetime -= damage;
       if (this.lifetime <= 0) {
         gameManager.player.score += 200;
+        if (gameManager.currentLevel == "map1.json") {
+          gameManager.updateScoreDisplay(gameManager.player.score);
+        } else {
+          gameManager.updateScoreDisplay(
+            gameManager.player.score + gameManager.score
+          );
+        }
+
         this.isDying = true;
         this.dieTimer = this.dieDuration;
         soundManager.play("/audio/pig_die.mp3", {

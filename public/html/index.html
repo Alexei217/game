@@ -8,12 +8,50 @@
       <link rel="stylesheet" href="css/style.css" />
     </head>
     <body>
-      <canvas
-        id="canvasId"
-        width="800"
-        height="480"
-      ></canvas>
-      <div id="result"></div>
+      <div id="startMenu" class="menu">
+        <button class="menu-btn" id="startBtn">Play</button>
+        <button class="menu-btn sound-btn">Sound</button>
+        <button class="menu-btn" id="leaderBoardBtn">Leaderboard</button>
+      </div>
+
+      <div id="secondLevelMenu" class="menu">
+        <button class="menu-btn" id="secondLevelBtn">level 2</button>
+        <button class="menu-btn to-start-menu-btn">Menu</button>
+      </div>
+
+      <div id="pause" class="menu">
+        <button class="menu-btn" id="restartBtn">Restart</button>
+        <button class="menu-btn sound-btn">Sound</button>
+        <button class="menu-btn to-start-menu-btn">Menu</button>
+      </div>
+
+      <div id="finishMenu" class="menu">
+        <h3>Your score: <span id="finalScore">0</span></h3>
+        <input type="text" id="playerNameInput" maxlength="15" placeholder="Name" />
+        <button class="menu-btn" id="saveScoreBtn">Save the result</button>
+      </div>
+
+      <div id="leaderboard">
+        <h2>Leaderboard</h2>
+        <table class="leaderboard-table">
+          <thead>
+            <tr>
+              <th>Place</th>
+              <th>Player</th>
+              <th>Score</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboardBody"></tbody>
+        </table>
+        <button class="menu-btn" id="clearLeaderboardBtn">Clear table</button>
+        <button class="menu-btn" id="closeLeaderboardBtn">Close</button>
+      </div>
+      <div class="game-container">
+        <div id="scoreDisplay">Score: 0</div>
+        <div id="hpDisplay">Hp: 0</div>
+        <canvas id="canvasId" width="800" height="480"></canvas>
+      </div>
       <script src="js/managers/MapManager.js"></script>
       <script src="js/managers/SpriteManager.js"></script>
       <script src="js/managers/PhysicManager.js"></script>

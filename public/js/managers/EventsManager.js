@@ -14,6 +14,7 @@ class EventsManager {
     // canvas.addEventListener("mouseup", this.onMouseUp.bind(this));
     document.body.addEventListener("keydown", this.onKeyDown.bind(this));
     document.body.addEventListener("keyup", this.onKeyUp.bind(this));
+    document.addEventListener('keydown', this.onGlobalKeyDown.bind(this));
   }
 
   // onMouseDown(event) {
@@ -32,5 +33,11 @@ class EventsManager {
   onKeyUp(event) {
     var action = this.bind[event.keyCode];
     if (action) this.action[action] = false;
+  }
+
+  onGlobalKeyDown(event) {
+    if (event.key === 'Escape') {
+      gameManager.showPause();
+    }
   }
 }

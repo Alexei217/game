@@ -105,6 +105,12 @@ class Player extends Entity {
 
     this.score += 100;
 
+    if (gameManager.currentLevel == "map1.json") {
+      gameManager.updateScoreDisplay(this.score);
+    } else {
+      gameManager.updateScoreDisplay(this.score + gameManager.score);
+    }
+
     if (diamond.startCollect) {
       diamond.startCollect();
     }
@@ -114,6 +120,7 @@ class Player extends Entity {
     if (heart.collected) return;
 
     this.lifetime += 1;
+    gameManager.updateHpDisplay(this.lifetime);
 
     if (heart.startCollect) {
       heart.startCollect();
@@ -174,6 +181,7 @@ class Player extends Entity {
 
       if (this.dieTimer <= 0) {
         //gameManager.kill(this);
+        gameManager.endGame();
       }
 
       animationManager.updateAnimation(this, "die", 1);
@@ -374,6 +382,7 @@ class Player extends Entity {
   takeDamage(damage) {
     if (!this.isTakingDamage) {
       this.lifetime -= damage;
+      gameManager.updateHpDisplay(this.lifetime);
       if (this.lifetime <= 0) {
         this.isDying = true;
         this.dieTimer = this.dieDuration;

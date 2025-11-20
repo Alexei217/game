@@ -4,8 +4,8 @@ class MapManager {
     this.tLayer = new Array();
     this.xCount = 0;
     this.yCount = 0;
-    this.tSize = { x: 32, y: 32 };
-    this.mapSize = { x: 20, y: 30 };
+    this.tSize = new Object();
+    this.mapSize = new Object();
     this.tilesets = new Array();
     this.imgLoadCount = 0;
     this.imgLoaded = false;
@@ -192,6 +192,7 @@ class MapManager {
   }
 
   loadMap(path) {
+    this.reset();
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
       if (request.readyState === 4 && request.status === 200) {
@@ -200,5 +201,19 @@ class MapManager {
     }.bind(this);
     request.open("GET", path, true);
     request.send();
+  }
+
+  reset() {
+    this.mapData = null;
+    this.tLayer = new Array();
+    this.xCount = 0;
+    this.yCount = 0;
+    this.tSize = new Object();
+    this.mapSize = new Object();
+    this.tilesets = new Array();
+    this.imgLoadCount = 0;
+    this.imgLoaded = false;
+    this.jsonLoaded = false;
+    this.view = { x: 0, y: 0, w: 800, h: 480 };
   }
 }

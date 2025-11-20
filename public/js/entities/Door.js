@@ -26,6 +26,11 @@ class Door extends Entity {
       if (this.animationTimer <= 0) {
         this.isOpen = false;
         this.isClosing = false;
+        if (gameManager.currentLevel === "map1.json") {
+          gameManager.completeFirstLevel();
+        } else {
+          gameManager.completeLastLevel();
+        }
       }
     } else if (this.isOpening) {
       animationType = "door opening";
