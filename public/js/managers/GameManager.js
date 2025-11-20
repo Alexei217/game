@@ -14,6 +14,7 @@ class GameManager {
     this.pause = document.getElementById("pause");
     this.finishMenu = document.getElementById("finishMenu");
     this.leaderboard = document.getElementById("leaderboard");
+    this.gameContainer = document.getElementById("gameContainer");
   }
 
   initPlayer(obj) {
@@ -221,7 +222,7 @@ class GameManager {
   }
 
   showPause() {
-    if (this.player) {
+    if (this.player && this.gameContainer.style.display == "block") {
       if (this.gameStarted) {
         this.gameStarted = false;
         this.pause.style.display = "block";
@@ -258,24 +259,12 @@ class GameManager {
   }
 
   showGame() {
-    const scoreDisplay = document.getElementById("scoreDisplay");
-    const hpDisplay = document.getElementById("hpDisplay");
-
-    canvas.style.display = "block";
-    scoreDisplay.style.display = "block";
-    hpDisplay.style.display = "block";
-
+    this.gameContainer.style.display = "block"
     this.gameStarted = true;
   }
 
   hideGame() {
-    const scoreDisplay = document.getElementById("scoreDisplay");
-    const hpDisplay = document.getElementById("hpDisplay");
-
-    canvas.style.display = "none";
-    scoreDisplay.style.display = "none";
-    hpDisplay.style.display = "none";
-
+    this.gameContainer.style.display = "none"
     this.gameStarted = false;
   }
 

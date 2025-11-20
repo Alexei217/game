@@ -18,7 +18,8 @@ body {
   overflow: hidden;
 }
 
-.game-container {
+#gameContainer {
+  display: none;
   position: relative;
   border: 4px solid rgba(245, 235, 220, 0.95);
   border-radius: 8px;
@@ -177,10 +178,7 @@ body {
 #pause,
 #secondLevelMenu,
 #finishMenu,
-#leaderboard,
-#canvasId,
-#scoreDisplay,
-#hpDisplay {
+#leaderboard {
   display: none;
 }
 
