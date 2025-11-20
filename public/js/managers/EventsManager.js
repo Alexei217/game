@@ -10,20 +10,10 @@ class EventsManager {
     this.bind[87] = "up";
     this.bind[32] = "attack";
     this.bind[69] = "interact";
-    // canvas.addEventListener("mousedown", this.onMouseDown.bind(this));
-    // canvas.addEventListener("mouseup", this.onMouseUp.bind(this));
     document.body.addEventListener("keydown", this.onKeyDown.bind(this));
     document.body.addEventListener("keyup", this.onKeyUp.bind(this));
     document.addEventListener('keydown', this.onGlobalKeyDown.bind(this));
   }
-
-  // onMouseDown(event) {
-  //   this.action["fire"] = true;
-  // }
-
-  // onMouseUp(event) {
-  //   this.action["fire"] = false;
-  // }
 
   onKeyDown(event) {
     var action = this.bind[event.keyCode];
