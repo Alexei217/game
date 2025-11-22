@@ -26,7 +26,7 @@ class EventsManager {
   }
 
   onGlobalKeyDown(event) {
-    if (event.key === 'Escape') {
+    if (event.key === 'Escape'  && !event.repeat) {
       gameManager.showPause();
     }
   }
