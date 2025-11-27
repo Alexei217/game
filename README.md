@@ -17,11 +17,17 @@
 
 ```bash
 git clone git@github.com:Alexei217/game.git
+```
 
+```bash
 cd game
+```
 
+```bash
 npm install
+```
 
+```bash
 npm start
 ```
 
