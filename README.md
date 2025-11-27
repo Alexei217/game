@@ -16,7 +16,7 @@
 ### Установка и запуск
 
 ```bash
-git clone https://github.com/Alexei217/game
+git clone git@github.com:Alexei217/game.git
 
 cd game
 
